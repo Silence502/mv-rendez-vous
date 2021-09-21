@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name:       Rendez-vous
+ * Plugin Name:       MV Rendez-vous
  * Description:       Module de prise de rendez-vous.
  * Version:           1.0.0
  * Author:            Mickael VIDAL
@@ -21,13 +21,13 @@ new RdvOptionsClass();
 add_action('init', array('RdvRegisterHooksClass', 'register_activation'));
 add_action('deactivate_plugin', array('RdvRegisterHooksClass', 'register_deactivation'));
 
-add_shortcode( 'rdv_custom_message', 'custom_rdv_shortcode' );
+add_shortcode( 'rdv_form_shortcode', 'rdv_shortcode' );
 
 /**
  * @return false|string
  * Add a new shortcode to insert the form.
  */
-function custom_rdv_shortcode() {
+function rdv_shortcode() {
 	ob_start();
 	$validation = new RdvValidationClass();
 	$validation->rdv_submit_function();
