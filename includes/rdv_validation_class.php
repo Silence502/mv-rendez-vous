@@ -52,7 +52,10 @@ if ( ! class_exists( 'RdvValidationClass' ) ):
 					$_POST['firstname'],
 					$_POST['lastname'],
 					$_POST['email'],
-					$_POST['message']
+					$_POST['phone'],
+					$_POST['date'],
+					$_POST['schedule'],
+					$_POST['message'],
 				);
 			}
 

@@ -21,7 +21,7 @@ if ( ! class_exists( 'RdvQueriesClass' ) ):
 		public function rdv_delete_function( $id ) {
 			global $wpdb;
 			$rdv_table = $wpdb->prefix . 'rdv';
-			$wpdb->delete( $rdv_table, array( 'ID' => $id ) );
+			$wpdb->delete( $rdv_table, array( 'rdv_id' => $id ) );
 
 			$rdv_sql_alter_table = "ALTER TABLE $rdv_table AUTO_INCREMENT = 1";
 			$wpdb->query( $rdv_sql_alter_table );
@@ -37,12 +37,17 @@ if ( ! class_exists( 'RdvQueriesClass' ) ):
 
 			$rdv_table = $wpdb->prefix . 'rdv';
 			$rdv_sql   = "CREATE TABLE IF NOT EXISTS $rdv_table (
-    			ID INTEGER NOT NULL AUTO_INCREMENT,
+    			rdv_id INTEGER NOT NULL AUTO_INCREMENT,
     			rdv_firstname varchar(45) NOT NULL,
     			rdv_lastname varchar (45) NOT NULL,
     			rdv_email varchar(50) NOT NULL,
+    			rdv_phone varchar(13) NOT NULL,
+    			rdv_date datetime NOT NULL,
+    			rdv_schedule varchar(20) NOT NULL,
     			rdv_message varchar(255) NOT NULL,
-    			PRIMARY KEY (ID)
+    			rdv_sentDate datetime NOT NULL,
+    			rdv_isConfirmed tinyint NOT NULL,
+    			PRIMARY KEY (rdv_id)
 			)$charset_collate;";
 
 			dbDelta( $rdv_sql );
@@ -63,26 +68,40 @@ if ( ! class_exists( 'RdvQueriesClass' ) ):
 		 * @param $firstname
 		 * @param $lastname
 		 * @param $email
+		 * @param $phone
+		 * @param $date
+		 * @param $schedule
 		 * @param $message
 		 * Insert the fields content in the table _rdv.
 		 */
-		function rdv_insert_function( $firstname, $lastname, $email, $message ) {
+		function rdv_insert_function( $firstname, $lastname, $email, $phone, $date, $schedule, $message ) {
 
 			global $wpdb, $rdv_table;
 			$rdv_table = $wpdb->prefix . 'rdv';
 
+			$dateTime = new DateTime();
+
 			$table_array = array(
-				'ID'            => null,
-				'rdv_firstname' => $firstname,
-				'rdv_lastname'  => $lastname,
-				'rdv_email'     => $email,
-				'rdv_message'   => $message
+				'rdv_id'          => null,
+				'rdv_firstname'   => $firstname,
+				'rdv_lastname'    => $lastname,
+				'rdv_email'       => $email,
+				'rdv_phone'       => $phone,
+				'rdv_date'        => $date,
+				'rdv_isConfirmed' => 0,
+				'rdv_sentDate'    => $dateTime->format( 'Y-m-d' ),
+				'rdv_schedule'    => $schedule,
+				'rdv_message'     => $message
 			);
 
-			if ($firstname || $lastname || $email || $message) {
+			if ( $firstname || $lastname || $email || $phone || $date || $schedule || $message ) {
 				$wpdb->insert( $rdv_table, $table_array );
 			}
 
 		}
 	}
 endif;
+
+/*
+rdv_schedule varchar(20) NOT NULL,
+ */
