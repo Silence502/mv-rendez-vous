@@ -36,6 +36,6 @@ vocation d'être distribué officiellement dans le store.
 
 Et voilà, le plugin est prêt pour utilisation. Dans votre back-office vous pourrez administrer toutes les demandes de rendez-vous dans le panneau *MV Rendez-vous*.
 
-**Attention ! étant toujours en phase de développement, la table dédié dans la base de donnée sera supprimé à la simple désactivation du plugin.**
+**Attention ! étant toujours en phase de développement, la table dédié dans la base de donnée sera supprimée à la simple désactivation du plugin.**
 
 ###
