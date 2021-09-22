@@ -11,12 +11,12 @@ vocation d'être distribué officiellement dans le store.
 #### Les grandes et principales fonctionnalités :
 
 * **[Terminée]** L'utilisateur inscrit ou non, peut soumettre via un formulaire une demande de rendez-vous.
-* **[En cours]** L'utilisateur peut choisir une tranche horaire pour un rendez-vous téléphonique.
+* **[Terminée]** L'utilisateur peut choisir une tranche horaire pour un rendez-vous téléphonique.
 * **[Terminée]** La demande de rendez-vous est transmise à l'administration dans le back-office wordpress.
 * **[A venir]** La demande de rendez-vous est également transmise par email à l'administrateur.
-* **[Terminée]** L'administrateur à la possibilité de supprimer les demandes en cours ou traités.
+* **[Terminée]** L'administrateur à la possibilité de supprimer les demandes en cours ou traitées.
 * **[A venir]** L'administrateur peut catégoriser les demandes : <i>Acceptée, En attente</i>.
-* **[A venir]** L'utilisateur reçoit une confirmation de l'acceptation du rendez-vous.
+* **[A venir]** L'utilisateur reçoit une confirmation de l'acceptation du rendez-vous par email.
 
 ## Environnement de développement
 
@@ -36,6 +36,6 @@ vocation d'être distribué officiellement dans le store.
 
 Et voilà, le plugin est prêt pour utilisation. Dans votre back-office vous pourrez administrer toutes les demandes de rendez-vous dans le panneau *MV Rendez-vous*.
 
-**Attention ! étant toujours en phase de développement, la table dédié dans la base de donnée sera supprimé à la simple désactivation du plugin.**
+**Attention ! Étant toujours en phase de développement, la table dédié dans la base de donnée sera supprimé à la simple désactivation du plugin.**
 
 ###

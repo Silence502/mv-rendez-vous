@@ -32,28 +32,43 @@ if ( ! class_exists( 'RdvOptionsClass' ) ):
 		 */
 		public function rdv_options_queries() {
 			//Get columns name
-			$rdvId        = 'ID';
+			$rdvId        = 'rdv_id';
 			$rdvFirstname = 'rdv_firstname';
 			$rdvLastname  = 'rdv_lastname';
 			$rdvEmail     = 'rdv_email';
+			$rdvPhone = 'rdv_phone';
+			$rdvDate = 'rdv_date';
+			$rdvIsConfirmed = 'rdv_isConfirmed';
+			$rdvSentDate = 'rdv_sentDate';
+			$rdvSchedule = 'rdv_schedule';
 			$rdvMessage   = 'rdv_message';
 
-			$result = new RdvQueriesClass();//Class instantiation
-			$print  = $result->rdv_select_function();//Get result of select query (array type)
+			$query = new RdvQueriesClass();//Class instantiation
+			$select  = $query->rdv_select_function();//Get result of select query (array type)
 
 			include_once 'rdv_options_header_form.php';
-			if ( count( $print ) == 0 ) {
+			if ( count( $select ) == 0 ) {
 				echo '<h3>Vous n\'avez pas demande de rendez-vous pour le moment.</h3>';
 			}
-			foreach ( $print as $res ) {
-				echo '<h3> ' . $res->$rdvFirstname . ' ' . $res->$rdvLastname . '</h3>';
-				echo '<p><strong>Message :</strong> ' . $res->$rdvMessage . '</p>';
-				echo '<p><strong>Email :</strong> ' . $res->$rdvEmail . '</p>';
-				echo '<input type="checkbox" id="' . $res->$rdvId . '" name="' . $res->$rdvId . '"><label for="' . $res->$rdvId . '">Supprimer</label>';
-				echo '<hr>';
+			foreach ( $select as $col ) {
+				$sentDateObject = date_create($col->$rdvSentDate);
+				$dateObject = date_create($col->$rdvDate);
+				echo '
+				<h3> ' . $col->$rdvFirstname . ' ' . $col->$rdvLastname . '</h3>
+				<em>Demande reçue le : '. date_format($sentDateObject, "d/m/y").'</em>
+				<p><strong>Message :</strong> ' . $col->$rdvMessage . '</p>
+				<ul>
+					<li><strong>Email :</strong> ' . $col->$rdvEmail . '</li>
+					<li><strong>Téléphone :</strong> ' . $col->$rdvPhone . '</li>
+					<li><strong>Horaire et date souhaités :</strong> le ' . date_format($dateObject, "d/m/y") . ' entre '.$col->$rdvSchedule.'</li>
+				</ul>
+				<input type="checkbox" id="' . $col->$rdvId . '" name="' . $col->$rdvId . '">
+				<label for="' . $col->$rdvId . '">Supprimer</label>
+				<hr>
+				';
 				if ( isset( $_POST['submit'] ) ) {
-					if ( ! empty( $_POST[ $res->$rdvId ] ) ) {
-						$result->rdv_delete_function( $res->$rdvId );
+					if ( ! empty( $_POST[ $col->$rdvId ] ) ) {
+						$query->rdv_delete_function( $col->$rdvId );
 					}
 					echo '<meta http-equiv="REFRESH" content="0">';//For refresh the page
 				}
