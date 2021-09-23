@@ -10,7 +10,6 @@ if ( ! class_exists( 'RdvOptionsClass' ) ):
 		 */
 		public function __construct() {
 			add_action( 'admin_menu', array( $this, 'rdv_options_page' ) );
-			add_action('admin_enqueue_scripts', array($this, 'load_ressources'));
 		}
 
 		/**
@@ -55,13 +54,23 @@ if ( ! class_exists( 'RdvOptionsClass' ) ):
 				$sentDateObject = date_create( $col->$rdvSentDate );
 				$dateObject     = date_create( $col->$rdvDate );
 
+				global $cardColor;
+				global $checked;
+				global $confirmx;
+
 				if ( $col->$rdvIsConfirmed == 0 ) {
-					echo '<div style="background-color: darkorange">';
+					$cardColor = 'background-color: #e5d0d0';
+					$checked   = '';
+					$confirmx  = 'Confirmer';
 				} else {
-					echo '<div style="background-color: cornflowerblue">';
+					$cardColor = 'background-color: #d1dfe6';
+					$checked   = 'checked';
+					$confirmx  = 'Confirmé';
 				}
 
 				echo '
+				<hr>
+				<div style="' . $cardColor . '" class="card card-style">
 				<h3> ' . $col->$rdvFirstname . ' ' . $col->$rdvLastname . '</h3>
 				<em>Demande reçue le : ' . date_format( $sentDateObject, "d/m/y" ) . '</em>
 				<p><strong>Message :</strong> ' . $col->$rdvMessage . '</p>
@@ -70,28 +79,33 @@ if ( ! class_exists( 'RdvOptionsClass' ) ):
 					<li><strong>Téléphone :</strong> ' . $col->$rdvPhone . '</li>
 					<li><strong>Horaire et date souhaités :</strong> le ' . date_format( $dateObject, "d/m/y" ) . ' entre ' . $col->$rdvSchedule . '</li>
 				</ul>
-				<input type="checkbox" id="' . $col->$rdvId . '" name="' . $col->$rdvId . '">
-				<label for="' . $col->$rdvId . '">Supprimer</label>
-				</div>
 				<hr>
+				<div class="options-card-style">
+				<div>
+				<input type="checkbox" id="' . $col->$rdvId . '" name="' . $col->$rdvId . '">
+				<label for="' . $col->$rdvId . '"><strong>Supprimer</strong></label>
+				</div><div>
+				<input type="checkbox" id="' . $col->$rdvId . '-is-confirmed" name="' . $col->$rdvId . '-is-confirmed" ' . $checked . '>
+				<label for="' . $col->$rdvId . '-is-confirmed"><strong>' . $confirmx . '</strong></label>
+				</div>
+				<button class="button-primary">Envoyer un message</button>
+				</div>
+				</div>
 				';
 				if ( isset( $_POST['submit'] ) ) {
 					if ( ! empty( $_POST[ $col->$rdvId ] ) ) {
 						$query->rdv_delete_function( $col->$rdvId );
 					}
+
+					if ( empty( $_POST[ $col->$rdvId . '-is-confirmed' ] ) ) {
+						$query->rdv_update_function( $col->$rdvId, false );
+					} else {
+						$query->rdv_update_function( $col->$rdvId, true );
+					}
 					echo '<meta http-equiv="REFRESH" content="0">';//For refresh the page
 				}
 			}
 			include_once 'rdv_options_footer_form.php';
-		}
-
-		public function load_ressources() {
-			if (!defined('PLUGIN_URL')){
-				define('PLUGIN_URL', plugin_dir_url(__FILE__));
-			}
-
-			wp_register_style('admin_form_style', PLUGIN_URL .'admin/css/admin_form_style.css');
-			wp_enqueue_style('admin_form_style');
 		}
 	}
 endif;

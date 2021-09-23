@@ -3,9 +3,8 @@
 
 
     <form action="<?php menu_page_url( 'rdv_options_page_html' ) ?>" method="post">
-        <hr>
-        <div class="test">TEST</div>
-        <div>
-            <input type="checkbox" id="delete-all" name="delete-all">
-            <label for="date">Tout sélectionner</label>
-        </div>
+<!--        <div>-->
+<!--            <input type="checkbox" id="delete-all" name="delete-all">-->
+<!--            <label for="checkbox">Tout sélectionner</label>-->
+<!--        </div>-->
+

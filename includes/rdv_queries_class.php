@@ -30,10 +30,10 @@ if ( ! class_exists( 'RdvQueriesClass' ) ):
 		/**
 		 * Add a new table _rdv in the database.
 		 */
-		function rdv_create_table_function() {
+		public function rdv_create_table_function() {
 			global $wpdb, $rdv_table;
 			$charset_collate = $wpdb->get_charset_collate();
-			require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
+			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
 			$rdv_table = $wpdb->prefix . 'rdv';
 			$rdv_sql   = "CREATE TABLE IF NOT EXISTS $rdv_table (
@@ -56,7 +56,7 @@ if ( ! class_exists( 'RdvQueriesClass' ) ):
 		/**
 		 * Remove the table _rdv from the database.
 		 */
-		function rdv_drop_table_function() {
+		public function rdv_drop_table_function() {
 			global $wpdb, $rdv_table;
 			$rdv_table = $wpdb->prefix . 'rdv';
 			$rdv_sql   = "DROP TABLE IF EXISTS $rdv_table";
@@ -74,7 +74,7 @@ if ( ! class_exists( 'RdvQueriesClass' ) ):
 		 * @param $message
 		 * Insert the fields content in the table _rdv.
 		 */
-		function rdv_insert_function( $firstname, $lastname, $email, $phone, $date, $schedule, $message ) {
+		public function rdv_insert_function( $firstname, $lastname, $email, $phone, $date, $schedule, $message ) {
 
 			global $wpdb, $rdv_table;
 			$rdv_table = $wpdb->prefix . 'rdv';
@@ -88,7 +88,7 @@ if ( ! class_exists( 'RdvQueriesClass' ) ):
 				'rdv_email'       => $email,
 				'rdv_phone'       => $phone,
 				'rdv_date'        => $date,
-				'rdv_isConfirmed' => 0,
+				'rdv_isConfirmed' => false,
 				'rdv_sentDate'    => $dateTime->format( 'Y-m-d' ),
 				'rdv_schedule'    => $schedule,
 				'rdv_message'     => $message
@@ -99,9 +99,18 @@ if ( ! class_exists( 'RdvQueriesClass' ) ):
 			}
 
 		}
+
+		public function rdv_update_function($id, $checked) {
+			global $wpdb, $rdv_table;
+			$rdv_table = $wpdb->prefix . 'rdv';
+
+			$query = "
+				UPDATE $rdv_table SET rdv_isConfirmed='$checked' WHERE rdv_id='$id'
+			";
+
+			$wpdb->query($wpdb->prepare($query));
+		}
+
+
 	}
 endif;
-
-/*
-rdv_schedule varchar(20) NOT NULL,
- */

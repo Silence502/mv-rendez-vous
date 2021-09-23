@@ -16,10 +16,23 @@ require_once 'includes/rdv_register_hooks_class.php';
 require_once 'includes/rdv_queries_class.php';
 require_once 'includes/rdv_validation_class.php';
 
-new RdvOptionsClass();
+$rdvOption = new RdvOptionsClass();
 
 add_action('init', array('RdvRegisterHooksClass', 'register_activation'));
 add_action('deactivate_plugin', array('RdvRegisterHooksClass', 'register_deactivation'));
+
+
+add_action('admin_enqueue_scripts', 'load_ressources');
+
+function load_ressources() {
+	if (!defined('PLUGIN_URL')){
+		define('PLUGIN_URL', plugin_dir_url(__FILE__));
+	}
+
+	wp_register_style('admin_form_style.css', PLUGIN_URL .'admin/css/admin_form_style.css');
+	wp_enqueue_style('admin_form_style.css');
+}
+
 
 add_shortcode( 'rdv_form_shortcode', 'rdv_shortcode' );
 

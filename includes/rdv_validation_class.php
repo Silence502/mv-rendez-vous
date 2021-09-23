@@ -1,7 +1,5 @@
 <?php
 
-require_once 'test.php';
-
 if (!class_exists('RdvValidationClass')):
     class RdvValidationClass
     {
