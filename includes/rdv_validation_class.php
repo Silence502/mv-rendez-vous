@@ -48,11 +48,11 @@ if (!class_exists('RdvValidationClass')):
 
             $to = 'mickaelvidal51@gmail.com';
             $subject = 'Demande de rendez-vous';
-            $message = '<!doctype html><html><body>';
-            $message .= '<h1>Rendez-vous</h1>';
-            $message .= '<p>' . $_POST['firstname'] . ' ' . $_POST['lastname'] . ' vous propose un rendez-vous le ' . date_format($dateObject, 'd/m/y') . ' entre ' . $_POST['schedule'] . '.</p>';
-            $message .= '</body></html>';
-            $from = 'From:'.$_POST['email'];
+            $message = '<h1>Rendez-vous</h1>';
+            $message .= '<p>' . $_POST['firstname'] . ' ' . $_POST['lastname'] . ' souhaite un rendez-vous le ' . date_format($dateObject, 'd/m/y') . ' entre ' . $_POST['schedule'] . '.</p>';
+	        $message .= '<br><hr><br>';
+            $message .= '<p>'.$_POST['message'].'</p>';
+            $header = 'Content-Type: text/html'."\r\n".'From:'.$_POST['email'];
 
             if (isset($_POST['submit'])) {
                 $this->validation_rdv(
@@ -77,7 +77,7 @@ if (!class_exists('RdvValidationClass')):
                     $to,
                     $subject,
                     $message,
-                    $from
+	                $header
                 );
             }
 

@@ -1,4 +1,4 @@
-<style></style>
+<link rel="stylesheet" href="user_form_style.css">
 <form action="<?php $_SERVER['REQUEST_URI'] ?>" method="post">
     <div>
         <label for="firstname">Prénom<strong>*</strong></label>
@@ -31,7 +31,7 @@
     </div>
     <div>
         <label for="message">Message<strong>*</strong></label>
-        <textarea name="message" placeholder="Écrivez le but de votre rendez-vous"></textarea>
+        <textarea name="message" placeholder="Écrivez le but de votre rendez-vous (255 caractères maximum)"></textarea>
     </div>
     <div>
         <input type="submit" name="submit" value="Envoyer">
