@@ -39,5 +39,4 @@ Et voilà, le plugin est prêt pour utilisation. Dans votre back-office vous pou
 
 **Attention ! Étant toujours en phase de développement, la table dédiée dans la base de données sera supprimée à la simple désactivation du plugin.**
 
-
 ###
