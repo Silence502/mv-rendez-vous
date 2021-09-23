@@ -1,0 +1,15 @@
+.style-main-wrapper {
+    min-width: 250px;
+    max-width: 400px;
+}
+
+.options-card-style {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-style {
+    border-radius: 20px;
+    opacity: 0.90;
+}
