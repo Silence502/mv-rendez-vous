@@ -33,7 +33,7 @@ if ( ! class_exists( 'RdvQueriesClass' ) ):
 		function rdv_create_table_function() {
 			global $wpdb, $rdv_table;
 			$charset_collate = $wpdb->get_charset_collate();
-			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+			require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
 
 			$rdv_table = $wpdb->prefix . 'rdv';
 			$rdv_sql   = "CREATE TABLE IF NOT EXISTS $rdv_table (
@@ -54,7 +54,7 @@ if ( ! class_exists( 'RdvQueriesClass' ) ):
 		}
 
 		/**
-		 * Remove the table _rdv in the database.
+		 * Remove the table _rdv from the database.
 		 */
 		function rdv_drop_table_function() {
 			global $wpdb, $rdv_table;
