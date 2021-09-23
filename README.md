@@ -13,9 +13,9 @@ vocation d'être distribué officiellement dans le store.
 * **[Terminée]** L'utilisateur inscrit ou non, peut soumettre via un formulaire une demande de rendez-vous.
 * **[Terminée]** L'utilisateur peut choisir une tranche horaire pour un rendez-vous téléphonique.
 * **[Terminée]** La demande de rendez-vous est transmise à l'administration dans le back-office wordpress.
-* **[A venir]** La demande de rendez-vous est également transmise par email à l'administrateur.
+* **[Terminée]** La demande de rendez-vous est également transmise par email à l'administrateur.
 * **[Terminée]** L'administrateur à la possibilité de supprimer les demandes en cours ou traitées.
-* **[A venir]** L'administrateur peut catégoriser les demandes : <i>Acceptée, En attente</i>.
+* **[Terminée]** L'administrateur peut catégoriser les demandes : <i>Acceptée, En attente</i>.
 * **[A venir]** L'utilisateur reçoit une confirmation de l'acceptation du rendez-vous par email.
 
 ## Environnement de développement
