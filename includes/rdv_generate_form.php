@@ -1,5 +1,4 @@
-<link rel="stylesheet" href="user_form_style.css">
-<form action="<?php $_SERVER['REQUEST_URI'] ?>" method="post">
+<form action="<?php esc_url($_SERVER['REQUEST_URI']) ?>" method="post">
     <div>
         <label for="firstname">Prénom<strong>*</strong></label>
         <input type="text" id="firstname" name="firstname">

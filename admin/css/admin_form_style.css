@@ -5,11 +5,22 @@
 
 .options-card-style {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
 }
 
 .card-style {
     border-radius: 20px;
     opacity: 0.90;
+}
+
+.to-delete {
+    color: #6b003e;
+}
+
+.alert-delete-style {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 10px;
 }
