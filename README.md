@@ -10,19 +10,19 @@ vocation d'être distribué officiellement dans le store.
 
 #### Les grandes et principales fonctionnalités :
 
-* **[Terminée]** L'utilisateur inscrit ou non, peut soumettre via un formulaire une demande de rendez-vous.
-* **[Terminée]** L'utilisateur peut choisir une tranche horaire pour un rendez-vous téléphonique.
-* **[Terminée]** La demande de rendez-vous est transmise à l'administration dans le back-office wordpress.
-* **[Terminée]** La demande de rendez-vous est également transmise par email à l'administrateur.
-* **[Terminée]** L'administrateur à la possibilité de supprimer les demandes en cours ou traitées.
-* **[Terminée]** L'administrateur peut catégoriser les demandes : <i>Acceptée, En attente</i>.
-* **[A venir]** L'utilisateur reçoit une confirmation de l'acceptation du rendez-vous par email.
+* L'utilisateur inscrit ou non, peut soumettre via un formulaire une demande de rendez-vous.
+* L'utilisateur peut choisir une tranche horaire pour un rendez-vous téléphonique.
+* La demande de rendez-vous est transmise à l'administration dans le back-office Wordpress.
+* La demande de rendez-vous est également transmise par email à l'administrateur.
+* L'administrateur à la possibilité de confirmer les demandes.
+* A la confirmation des demandes par l'administrateur, un email est automatiquement envoyé au demandeur.
+* L'administrateur peut supprimer les demandes en cours ou confirmé. Une deuxième validation est demandé si la demande n'a pas été confirmé au préalable.
 
 ## Environnement de développement
 
 ### Pré-requis
 
-* PHP 7.x
+* PHP 7.4
 * WAMP
 * MySQL 5.7
 * Wordpress 5.8.x
@@ -32,6 +32,7 @@ vocation d'être distribué officiellement dans le store.
 * Téléchargez ou clonez le repository dans votre projet par l'arborescence suivante : `MonSite/wp-content/plugins`.
 * Dans votre back-office, depuis le panneau *Extensions* activez le nouveau plugin *MV Rendez-vous*.
 * Ensuite, créez une nouvelle page, insérez un bloc shortcode et saisissez la commande suivante : `[rdv_form_shortcode]`
+* Par défaut et en l'absence de plugin spécifique, l'onglet d'administration du module se positionne en premier dans le menu du back-office.
   . 
 
 Et voilà, le plugin est prêt pour utilisation. Dans votre back-office vous pourrez administrer toutes les demandes de rendez-vous dans le panneau *MV Rendez-vous*.
