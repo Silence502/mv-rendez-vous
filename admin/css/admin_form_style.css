@@ -23,4 +23,18 @@
     align-items: center;
     flex-direction: column;
     margin-top: 10px;
+    margin-bottom: 10px;
+    color: red;
+}
+
+.count-to-confirm-style {
+    color: #4b4eab;
+}
+
+.unvalidated-style {
+    color: red;
+}
+
+.validated-style {
+    color: green;
 }

@@ -11,9 +11,9 @@ if ( ! class_exists( 'RdvValidationClass' ) ):
 		 * @param $phone
 		 * @param $date
 		 * @param $schedule
-		 * Validate the fields.
+		 * Used for validate the fields.
 		 */
-		public function validation_rdv( $firstname, $lastname, $email, $message, $phone, $date, $schedule ) {
+		public static function validation_rdv( $firstname, $lastname, $email, $message, $phone, $date, $schedule ) {
 			global $validation_errors;
 			$validation_errors = new WP_Error();
 
@@ -38,9 +38,9 @@ if ( ! class_exists( 'RdvValidationClass' ) ):
 		}
 
 		/**
-		 * Call the insert function and the form creation.
-		 * Sanitize the fiels for security.
-		 * Add the fields content in the insert function.
+		 * Used for call the insert function and the form creation.
+		 * Sanitize the fields for improve security sql injections.
+		 * Add the content of the fields in the insert function.
 		 */
 		public function rdv_submit_function() {
 			$dateObject = date_create( $_POST['date'] );
@@ -52,18 +52,19 @@ if ( ! class_exists( 'RdvValidationClass' ) ):
 			$phone     = sanitize_text_field( $_POST['phone'] );
 			$date      = $_POST['date'];
 			$schedule  = $_POST['schedule'];
+			$adminMail = 'admin@admin.fr';
 
 
-			$to      = $email;
+			$to      = $adminMail;
 			$subject = 'Demande de rendez-vous';
 			$body    = '<h1>Rendez-vous</h1>';
-			$body    .= '<p>' . $_POST['firstname'] . ' ' . $_POST['lastname'] . ' souhaite un rendez-vous le ' . date_format( $dateObject, 'd/m/y' ) . ' entre ' . $_POST['schedule'] . '.</p>';
+			$body    .= '<p>' . $firstname . ' ' . $lastname . ' souhaite un rendez-vous le ' . date_format( $dateObject, 'd/m/y' ) . ' entre ' . $schedule . '.</p>';
 			$body    .= '<hr>';
-			$body    .= '<p>' . $_POST['message'] . '</p>';
-			$header  = 'Content-Type: text/html' . "\r\n" . 'From:' . $_POST['email'];
+			$body    .= '<p>' . $message . '</p>';
+			$header  = 'Content-Type: text/html' . "\r\n" . 'From:' . $email;
 
 			if ( isset( $_POST['submit'] ) ) {
-				$this->validation_rdv(
+				self::validation_rdv(
 					$firstname,
 					$lastname,
 					$email,
@@ -73,8 +74,7 @@ if ( ! class_exists( 'RdvValidationClass' ) ):
 					$message
 				);
 
-				$insert = new RdvQueriesClass();
-				$insert->rdv_insert_function(
+				RdvQueriesClass::rdv_insert_function(
 					$firstname,
 					$lastname,
 					$email,

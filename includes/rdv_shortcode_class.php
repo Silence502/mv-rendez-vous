@@ -4,7 +4,7 @@ if ( ! class_exists( 'RdvShortCode' ) ):
 	class RdvShortCode {
 		/**
 		 * @return false|string
-		 * Add a new shortcode to insert the form.
+		 * Used for adding a new shortcode to insert the form.
 		 */
 		public function rdv_shortcode() {
 			ob_start();

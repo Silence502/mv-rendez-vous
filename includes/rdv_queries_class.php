@@ -4,23 +4,47 @@ if ( ! class_exists( 'RdvQueriesClass' ) ):
 	class RdvQueriesClass {
 
 		/**
-		 * Use for select sql.
+		 * Used for select all data.
 		 */
-		public function rdv_select_function() {
+		public static function rdv_select_function() {
 			global $wpdb;
-			$rdv_table = $wpdb->prefix . 'rdv';
+			$rdv_table = $wpdb->prefix . 'rendez_vous';
 			$rdv_sql   = "SELECT * FROM $rdv_table";
 
 			return $wpdb->get_results( $rdv_sql );
 		}
 
 		/**
-		 * @param $id
-		 * Use for delete sql by id.
+		 * @return array|object|null
+		 * Used for select confirmed rendez-vous.
 		 */
-		public function rdv_delete_function( $id ) {
+		public static function rdv_select_confirmed_function() {
 			global $wpdb;
-			$rdv_table = $wpdb->prefix . 'rdv';
+			$rdv_table = $wpdb->prefix . 'rendez_vous';
+			$rdv_sql   = "SELECT * FROM $rdv_table WHERE rdv_isConfirmed=0";
+
+			return $wpdb->get_results( $rdv_sql );
+		}
+
+		/**
+		 * @return array|object|null
+		 * Used for select unconfirmed rendez-vous.
+		 */
+		public static function rdv_select_to_confirm_function() {
+			global $wpdb;
+			$rdv_table = $wpdb->prefix . 'rendez_vous';
+			$rdv_sql   = "SELECT * FROM $rdv_table WHERE rdv_isConfirmed=1";
+
+			return $wpdb->get_results( $rdv_sql );
+		}
+
+		/**
+		 * @param $id
+		 * Used for delete data by id.
+		 */
+		public static function rdv_delete_function( $id ) {
+			global $wpdb;
+			$rdv_table = $wpdb->prefix . 'rendez_vous';
 			$wpdb->delete( $rdv_table, array( 'rdv_id' => $id ) );
 
 			$rdv_sql_alter_table = "ALTER TABLE $rdv_table AUTO_INCREMENT = 1";
@@ -28,14 +52,14 @@ if ( ! class_exists( 'RdvQueriesClass' ) ):
 		}
 
 		/**
-		 * Add a new table _rdv in the database.
+		 * Used for adding a new table _rdv in the database.
 		 */
-		public function rdv_create_table_function() {
+		public static function rdv_create_table_function() {
 			global $wpdb, $rdv_table;
 			$charset_collate = $wpdb->get_charset_collate();
 			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
-			$rdv_table = $wpdb->prefix . 'rdv';
+			$rdv_table = $wpdb->prefix . 'rendez_vous';
 			$rdv_sql   = "CREATE TABLE IF NOT EXISTS $rdv_table (
     			rdv_id INTEGER NOT NULL AUTO_INCREMENT,
     			rdv_firstname varchar(45) NOT NULL,
@@ -54,11 +78,11 @@ if ( ! class_exists( 'RdvQueriesClass' ) ):
 		}
 
 		/**
-		 * Remove the table _rdv from the database.
+		 * Used for remove the table _rdv from the database.
 		 */
-		public function rdv_drop_table_function() {
+		public static function rdv_drop_table_function() {
 			global $wpdb, $rdv_table;
-			$rdv_table = $wpdb->prefix . 'rdv';
+			$rdv_table = $wpdb->prefix . 'rendez_vous';
 			$rdv_sql   = "DROP TABLE IF EXISTS $rdv_table";
 			$wpdb->query( $rdv_sql );
 		}
@@ -71,11 +95,11 @@ if ( ! class_exists( 'RdvQueriesClass' ) ):
 		 * @param $date
 		 * @param $schedule
 		 * @param $message
-		 * Insert the fields content in the table _rdv.
+		 * Used for insert the fields content in the table _rdv.
 		 */
-		public function rdv_insert_function( $firstname, $lastname, $email, $phone, $date, $schedule, $message ) {
+		public static function rdv_insert_function( $firstname, $lastname, $email, $phone, $date, $schedule, $message ) {
 			global $wpdb, $rdv_table;
-			$rdv_table = $wpdb->prefix . 'rdv';
+			$rdv_table = $wpdb->prefix . 'rendez_vous';
 
 			$dateTime = new DateTime();
 
@@ -93,7 +117,16 @@ if ( ! class_exists( 'RdvQueriesClass' ) ):
 			);
 
 			$table_format = array(
-				'%d', '%s', '%s', '%s', '%s', '%s', '%d', '%s', '%s', '%s'
+				'%d',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%s',
+				'%d',
+				'%s',
+				'%s',
+				'%s'
 			);
 
 			if ( $firstname || $lastname || $email || $phone || $date || $schedule || $message ) {
@@ -108,17 +141,17 @@ if ( ! class_exists( 'RdvQueriesClass' ) ):
 		/**
 		 * @param $id
 		 * @param $checked
-		 * Use for update query by id.
+		 * Used for update query by id.
 		 */
-		public function rdv_update_function($id, $checked) {
+		public static function rdv_update_function( $id, $checked ) {
 			global $wpdb, $rdv_table;
-			$rdv_table = $wpdb->prefix . 'rdv';
+			$rdv_table = $wpdb->prefix . 'rendez_vous';
 			$wpdb->update(
 				$rdv_table,
-				array('rdv_isConfirmed' => $checked),
-				array('rdv_id' => $id),
-				array('%d', '%d'),
-				array('%d')
+				array( 'rdv_isConfirmed' => $checked ),
+				array( 'rdv_id' => $id ),
+				array( '%d', '%d' ),
+				array( '%d' )
 			);
 		}
 	}
