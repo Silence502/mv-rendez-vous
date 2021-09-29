@@ -23,7 +23,7 @@ if ( ! class_exists( 'RdvOptionsClass' ) ):
 				'rdv_options',
 				array( $this, 'rdv_options_queries' ),
 				null,
-				20
+				4
 			);
 		}
 
@@ -97,7 +97,7 @@ if ( ! class_exists( 'RdvOptionsClass' ) ):
 				
 				';
 				if ( isset( $_POST[ $col->$rdvId . '-to-confirm' ] ) ) {
-					$this->rdv_confirm( $dateObject, $col->$rdvSchedule, $col->$rdvFirstname, $col->$rdvLastname );
+					$this->rdv_confirm( $dateObject, $col->$rdvSchedule, $col->$rdvFirstname, $col->$rdvLastname, $col->$rdvEmail );
 					$query->rdv_update_function( $col->$rdvId, true );
 					echo '<meta http-equiv="REFRESH" content="0">';
 				}
@@ -127,8 +127,15 @@ if ( ! class_exists( 'RdvOptionsClass' ) ):
 			include_once 'rdv_options_footer_form.php';
 		}
 
-		public function rdv_confirm( $dateObject, $schedule, $firstname, $lastname ) {
-			$to      = 'admin@admin.com';
+		/**
+		 * @param $dateObject
+		 * @param $schedule
+		 * @param $firstname
+		 * @param $lastname
+		 * @param $email
+		 */
+		public function rdv_confirm( $dateObject, $schedule, $firstname, $lastname, $email ) {
+			$to      = $email;
 			$subject = 'Confirmation de rendez-vous';
 			$body    = '<h1>Confirmation de rendez-vous</h1>';
 			$body    .= '<p>Bonjour, ' . $firstname . ' ' . $lastname . '.<br><br>';

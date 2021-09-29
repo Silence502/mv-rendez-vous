@@ -15,38 +15,34 @@ require_once 'includes/rdv_options_class.php';
 require_once 'includes/rdv_register_hooks_class.php';
 require_once 'includes/rdv_queries_class.php';
 require_once 'includes/rdv_validation_class.php';
+require_once 'includes/rdv_shortcode_class.php';
 
-$rdvOption = new RdvOptionsClass();
+if ( ! class_exists( 'MvRendezVous' ) ):
+	class MvRendezVous {
+		public static function init() {
+			new RdvOptionsClass();
+			add_action( 'init', array( 'RdvRegisterHooksClass', 'register_activation' ) );
+			add_action( 'deactivate_plugin', array( 'RdvRegisterHooksClass', 'register_deactivation' ) );
+			add_action( 'admin_enqueue_scripts', 'load_ressources' );
+		}
 
-add_action('init', array('RdvRegisterHooksClass', 'register_activation'));
-add_action('deactivate_plugin', array('RdvRegisterHooksClass', 'register_deactivation'));
-
-
-add_action('admin_enqueue_scripts', 'load_ressources');
+		public static function load_shortcode() {
+			add_shortcode( 'rdv_form_shortcode', array( 'RdvShortCode', 'rdv_shortcode' ) );
+		}
+	}
+endif;
 
 function load_ressources() {
-	if (!defined('PLUGIN_URL')){
-		define('PLUGIN_URL', plugin_dir_url(__FILE__));
+	if ( ! defined( 'PLUGIN_URL' ) ) {
+		define( 'PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 	}
 
-	wp_register_style('admin_form_style.css', PLUGIN_URL .'admin/css/admin_form_style.css');
-	wp_enqueue_style('admin_form_style.css');
+	wp_register_style( 'admin_form_style.css', PLUGIN_URL . 'admin/css/admin_form_style.css' );
+	wp_enqueue_style( 'admin_form_style.css' );
 
-	wp_register_script('rdv_options_class_js.js', PLUGIN_URL . 'admin/js/rdv_options_class_js.js');
-	wp_enqueue_script('rdv_options_class_js.js');
+	wp_register_script( 'rdv_options_class_js.js', PLUGIN_URL . 'admin/js/rdv_options_class_js.js' );
+	wp_enqueue_script( 'rdv_options_class_js.js' );
 }
 
-
-add_shortcode( 'rdv_form_shortcode', 'rdv_shortcode' );
-
-/**
- * @return false|string
- * Add a new shortcode to insert the form.
- */
-function rdv_shortcode() {
-	ob_start();
-	$validation = new RdvValidationClass();
-	$validation->rdv_submit_function();
-
-	return ob_get_clean();
-}
+MvRendezVous::init();
+MvRendezVous::load_shortcode();

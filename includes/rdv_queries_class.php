@@ -60,7 +60,6 @@ if ( ! class_exists( 'RdvQueriesClass' ) ):
 			global $wpdb, $rdv_table;
 			$rdv_table = $wpdb->prefix . 'rdv';
 			$rdv_sql   = "DROP TABLE IF EXISTS $rdv_table";
-
 			$wpdb->query( $rdv_sql );
 		}
 
@@ -75,7 +74,6 @@ if ( ! class_exists( 'RdvQueriesClass' ) ):
 		 * Insert the fields content in the table _rdv.
 		 */
 		public function rdv_insert_function( $firstname, $lastname, $email, $phone, $date, $schedule, $message ) {
-
 			global $wpdb, $rdv_table;
 			$rdv_table = $wpdb->prefix . 'rdv';
 
@@ -94,23 +92,34 @@ if ( ! class_exists( 'RdvQueriesClass' ) ):
 				'rdv_message'     => $message
 			);
 
-			if ( $firstname || $lastname || $email || $phone || $date || $schedule || $message ) {
-				$wpdb->insert( $rdv_table, $table_array );
-			}
+			$table_format = array(
+				'%d', '%s', '%s', '%s', '%s', '%s', '%d', '%s', '%s', '%s'
+			);
 
+			if ( $firstname || $lastname || $email || $phone || $date || $schedule || $message ) {
+				$wpdb->insert(
+					$rdv_table,
+					$table_array,
+					$table_format
+				);
+			}
 		}
 
+		/**
+		 * @param $id
+		 * @param $checked
+		 * Use for update query by id.
+		 */
 		public function rdv_update_function($id, $checked) {
 			global $wpdb, $rdv_table;
 			$rdv_table = $wpdb->prefix . 'rdv';
-
-			$query = "
-				UPDATE $rdv_table SET rdv_isConfirmed='$checked' WHERE rdv_id='$id'
-			";
-
-			$wpdb->query($wpdb->prepare($query));
+			$wpdb->update(
+				$rdv_table,
+				array('rdv_isConfirmed' => $checked),
+				array('rdv_id' => $id),
+				array('%d', '%d'),
+				array('%d')
+			);
 		}
-
-
 	}
 endif;
