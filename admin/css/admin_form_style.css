@@ -38,3 +38,7 @@
 .validated-style {
     color: green;
 }
+
+.div-setting-style p {
+    font-weight: bold;
+}

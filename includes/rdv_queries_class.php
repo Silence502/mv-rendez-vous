@@ -52,7 +52,7 @@ if ( ! class_exists( 'RdvQueriesClass' ) ):
 		}
 
 		/**
-		 * Used for adding a new table _rdv in the database.
+		 * Used for adding a new table _rendez_vous in the database.
 		 */
 		public static function rdv_create_table_function() {
 			global $wpdb, $rdv_table;
@@ -78,13 +78,49 @@ if ( ! class_exists( 'RdvQueriesClass' ) ):
 		}
 
 		/**
+		 * Used for adding a new table _rendez_vous_msg in the database.
+		 */
+		public static function rdv_create_table_message_function() {
+			global $wpdb, $rdv_table_msg;
+			$charset_collate = $wpdb->get_charset_collate();
+			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+
+			$rdv_table_msg = $wpdb->prefix . 'rendez_vous_msg';
+			$rdv_sql       = "CREATE TABLE IF NOT EXISTS $rdv_table_msg (
+    			rdv_msg_id INTEGER NOT NULL AUTO_INCREMENT,
+    			rdv_message varchar(255) NOT NULL,
+    			PRIMARY KEY (rdv_msg_id)
+			)$charset_collate;";
+
+			dbDelta( $rdv_sql );
+		}
+
+		public static function rdv_create_table_email_function() {
+			global $wpdb, $rdv_table_email;
+			$charset_collate = $wpdb->get_charset_collate();
+			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+
+			$rdv_table_email = $wpdb->prefix . 'rendez_vous_email';
+			$rdv_sql         = "CREATE TABLE IF NOT EXISTS $rdv_table_email (
+    			rdv_email_id INTEGER NOT NULL AUTO_INCREMENT,
+    			rdv_email varchar(255) NOT NULL,
+    			PRIMARY KEY (rdv_email_id)
+			)$charset_collate;";
+
+			dbDelta( $rdv_sql );
+		}
+
+		/**
 		 * Used for remove the table _rdv from the database.
 		 */
 		public static function rdv_drop_table_function() {
-			global $wpdb, $rdv_table;
-			$rdv_table = $wpdb->prefix . 'rendez_vous';
-			$rdv_sql   = "DROP TABLE IF EXISTS $rdv_table";
-			$wpdb->query( $rdv_sql );
+			global $wpdb, $rdv_table, $rdv_table_msg;
+			$rdv_table     = $wpdb->prefix . 'rendez_vous';
+			$rdv_table_msg = $wpdb->prefix . 'rendez_vous_msg';
+			$rdv_drop      = "DROP TABLE IF EXISTS $rdv_table";
+			$rdv_drop_msg  = "DROP TABLE IF EXISTS $rdv_table_msg";
+			$wpdb->query( $rdv_drop );
+			$wpdb->query( $rdv_drop_msg );
 		}
 
 		/**
