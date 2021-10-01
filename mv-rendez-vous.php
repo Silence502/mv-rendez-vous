@@ -11,11 +11,12 @@
  * Domain Path:       /languages
  */
 
-require_once 'includes/rdv_options_class.php';
+require_once 'includes/rdv_management_class.php';
 require_once 'includes/rdv_register_hooks_class.php';
 require_once 'includes/rdv_queries_class.php';
 require_once 'includes/rdv_validation_class.php';
 require_once 'includes/rdv_shortcode_class.php';
+require_once 'includes/rdv_settings_class.php';
 
 if ( ! class_exists( 'MvRendezVous' ) ):
 	class MvRendezVous {
@@ -23,10 +24,11 @@ if ( ! class_exists( 'MvRendezVous' ) ):
 		 * Used for initiate the plugin first actions.
 		 */
 		public static function init() {
-			add_action( 'admin_menu', array('RdvOptionsClass', 'rdv_options_page' ));
+			add_action( 'admin_menu', array( 'RdvManagementClass', 'rdv_management_page' ) );
+			add_action( 'admin_menu', array( 'RdvSettingsClass', 'rdv_submenu_page' ) );
 			add_action( 'init', array( 'RdvRegisterHooksClass', 'register_activation' ) );
 			add_action( 'deactivate_plugin', array( 'RdvRegisterHooksClass', 'register_deactivation' ) );
-			add_action( 'admin_enqueue_scripts', array('MvRendezVous','load_ressources' ));
+			add_action( 'admin_enqueue_scripts', array( 'MvRendezVous', 'load_ressources' ) );
 		}
 
 		/**

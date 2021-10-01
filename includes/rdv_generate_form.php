@@ -21,12 +21,12 @@
     </div>
     <div>
         <p>Horaires <strong>*</strong></p>
-        <input type="radio" id="1011" name="schedule" value="10h00 et 11h00">
-        <label for="1011">10h00 - 11h00</label><br>
-        <input type="radio" id="1012" name="schedule" value="11h00 et 12h00">
-        <label for="1012">11h00 - 12h00</label><br>
-        <input type="radio" id="1718" name="schedule" value="17h00 et 18h00">
-        <label for="1718">17h00 - 18h00</label>
+        <input type="radio" id="schedule-01" name="schedule" value="10h00 et 11h00">
+        <label for="schedule-01">10h00 - 11h00</label><br>
+        <input type="radio" id="schedule-02" name="schedule" value="11h00 et 12h00">
+        <label for="schedule-02">11h00 - 12h00</label><br>
+        <input type="radio" id="schedule-03" name="schedule" value="17h00 et 18h00">
+        <label for="schedule-03">17h00 - 18h00</label>
     </div>
     <div>
         <label for="message">Message <strong>*</strong></label>
