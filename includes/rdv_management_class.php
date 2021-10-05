@@ -50,15 +50,15 @@ if ( ! class_exists( 'RdvManagementClass' ) ):
 				echo '<p class="count-to-confirm-style">Dont <span class="validated-style"><strong>' . $selectCountConfirmed . '</strong></span> 
 				rendez-vous validé(s) et <span class="unvalidated-style"><strong>' . $selectCountToConfirm . '</strong></span> non validés</p><hr>';
 			}
-			foreach ( RdvQueriesClass::rdv_select_function() as $col ) {
-				$sentDateObject = date_create( $col->$rdvSentDate );
-				$dateObject     = date_create( $col->$rdvDate );
+			foreach ( RdvQueriesClass::rdv_select_function() as $row ) {
+				$sentDateObject = date_create( $row->$rdvSentDate );
+				$dateObject     = date_create( $row->$rdvDate );
 
 				global $cardColor;
 				global $checked;
 				global $confirm;
 
-				if ( $col->$rdvIsConfirmed == 0 ) {
+				if ( $row->$rdvIsConfirmed == 0 ) {
 					$cardColor  = 'background-color: #e5d0d0';
 					$checked    = '';
 					$confirm    = 'Valider le rendez-vous';
@@ -75,58 +75,59 @@ if ( ! class_exists( 'RdvManagementClass' ) ):
 
 				echo '
 				<div style="' . $cardColor . '" class="card card-style">
-				<h3> ' . $col->$rdvFirstname . ' ' . $col->$rdvLastname . '</h3>
-				<em>Demande reçue le : ' . date_format( $sentDateObject, "d/m/y" ) . '</em>
-				<ul>
-					<li><strong>Email :</strong> ' . $col->$rdvEmail . '</li>
-					<li><strong>Téléphone :</strong> ' . $col->$rdvPhone . '</li>
-					<li><strong>Horaire et date souhaités :</strong> le ' . date_format( $dateObject, "d/m/y" ) . ' entre ' . $col->$rdvSchedule . '</li>
-				</ul>
-				<div class="card card-style">
-				<p>' . $col->$rdvMessage . '</p>
-				</div>
-				<hr>
-				<div class="options-card-style">
-				<div>
-				<input type="checkbox" id="' . $col->$rdvId . '-to-delete" name="' . $col->$rdvId . '-to-delete">
-				<label for="' . $col->$rdvId . '-to-delete" class="to-delete"><strong>Supprimer</strong></label>
-				</div>
-				<input ' . $confirmed . ' type="submit" name="' . $col->$rdvId . '-to-confirm" id="' . $col->$rdvId . '-to-confirm" class="button-primary" value="' . $confirm . '">
-				</div>
-				
+					<h3> ' . $row->$rdvFirstname . ' ' . $row->$rdvLastname . '</h3>
+					<em>Demande reçue le : ' . date_format( $sentDateObject, "d/m/y" ) . '</em>
+					<ul>
+						<li><strong>Email :</strong> ' . $row->$rdvEmail . '</li>
+						<li><strong>Téléphone :</strong> ' . $row->$rdvPhone . '</li>
+						<li><strong>Horaire et date souhaités :</strong> le ' . date_format( $dateObject, "d/m/y" ) . ' entre ' . $row->$rdvSchedule . '</li>
+					</ul>
+					<div class="card card-style">
+						<p>' . $row->$rdvMessage . '</p>
+					</div>
+					<hr>
+					<div class="options-card-style">
+						<div>
+							<input type="checkbox" id="' . $row->$rdvId . '-to-delete" name="' . $row->$rdvId . '-to-delete">
+							<label for="' . $row->$rdvId . '-to-delete" class="to-delete"><strong>Supprimer</strong></label>
+						</div>
+						<input ' . $confirmed . ' type="submit" name="' . $row->$rdvId . '-to-confirm" id="' . $row->$rdvId . '-to-confirm" class="button-primary" value="' . $confirm . '">
+					</div>
 				';
 
-				if ( isset( $_POST[ $col->$rdvId . '-to-confirm' ] ) ) {
+				if ( isset( $_POST[ $row->$rdvId . '-to-confirm' ] ) ) {
 					self::rdv_confirm(
 						$dateObject,
-						$col->$rdvSchedule,
-						$col->$rdvFirstname,
-						$col->$rdvLastname,
-						$col->$rdvEmail,
-						$col->$rdvPhone,
+						$row->$rdvSchedule,
+						$row->$rdvFirstname,
+						$row->$rdvLastname,
+						$row->$rdvEmail,
+						$row->$rdvPhone,
 					);
-					RdvQueriesClass::rdv_update_function( $col->$rdvId, true );
+					RdvQueriesClass::rdv_update_function( $row->$rdvId, true );
 					echo '<meta http-equiv="REFRESH" content="0">';
 				}
 
 				if ( isset( $_POST['submit'] ) ) {
-					if ( ! empty( $_POST[ $col->$rdvId . '-to-delete' ] ) && $col->$rdvIsConfirmed == 1 ) {
-						RdvQueriesClass::rdv_delete_function( $col->$rdvId );
+					if ( ! empty( $_POST[ $row->$rdvId . '-to-delete' ] ) && $row->$rdvIsConfirmed == 1 ) {
+						RdvQueriesClass::rdv_delete_function( $row->$rdvId );
 						echo '<meta http-equiv="REFRESH" content="0">';
-					} elseif ( ! empty( $_POST[ $col->$rdvId . '-to-delete' ] ) && $col->$rdvIsConfirmed == 0 ) {
+					} elseif ( ! empty( $_POST[ $row->$rdvId . '-to-delete' ] ) && $row->$rdvIsConfirmed == 0 ) {
 						echo '
 						<hr>
 						<div class="alert-delete-style">
 						Vous n\'avez pas confirmé ce rendez-vous<br>
 						Voulez-vous quand même le supprimer ?
-						<div><input class="button-secondary" type="submit" id="' . $col->$rdvId . '-to-delete-alert" name="' . $col->$rdvId . '-to-delete-alert" value="Confirmer la suppression"></div>
+							<div class="btn-alert-style">
+								<input class="button-secondary" type="submit" id="' . $row->$rdvId . '-to-delete-alert" name="' . $row->$rdvId . '-to-delete-alert" value="Confirmer la suppression">
+							</div>
 						</div>
 						';
 					}
 				}
 
-				if ( isset( $_POST[ $col->$rdvId . '-to-delete-alert' ] ) ) {
-					RdvQueriesClass::rdv_delete_function( $col->$rdvId );
+				if ( isset( $_POST[ $row->$rdvId . '-to-delete-alert' ] ) ) {
+					RdvQueriesClass::rdv_delete_function( $row->$rdvId );
 					echo '<meta http-equiv="REFRESH" content="0">';
 				}
 

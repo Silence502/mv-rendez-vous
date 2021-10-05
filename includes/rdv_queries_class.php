@@ -1,6 +1,9 @@
 <?php
 
 if ( ! class_exists( 'RdvQueriesClass' ) ):
+	global $rdv_db_version;
+	$rdv_db_version = '1.0';
+
 	class RdvQueriesClass {
 
 		/**
@@ -12,6 +15,15 @@ if ( ! class_exists( 'RdvQueriesClass' ) ):
 			$rdv_sql   = "SELECT * FROM $rdv_table";
 
 			return $wpdb->get_results( $rdv_sql );
+		}
+
+		public static function rdv_select_settings() {
+			global $wpdb, $rdv_table_settings;
+
+			$rdv_table_settings = $wpdb->prefix . 'rendez_vous_settings';
+			$rdv_sql = "SELECT * FROM $rdv_table_settings WHERE rdv_settings_id = 1";
+
+			return $wpdb->get_row($rdv_sql);
 		}
 
 		/**
@@ -71,7 +83,9 @@ if ( ! class_exists( 'RdvQueriesClass' ) ):
     			rdv_message varchar(255) NOT NULL,
     			rdv_sentDate datetime NOT NULL,
     			rdv_isConfirmed tinyint NOT NULL,
-    			PRIMARY KEY (rdv_id)
+    			rdv_user_id int NOT NULL,
+    			PRIMARY KEY (rdv_id),
+    			CONSTRAINT fk_user FOREIGN KEY (rdv_user_id) REFERENCES {$wpdb->users}(user_id)
 			)$charset_collate;";
 
 			dbDelta( $rdv_sql );
@@ -88,8 +102,9 @@ if ( ! class_exists( 'RdvQueriesClass' ) ):
 			$rdv_table_msg = $wpdb->prefix . 'rendez_vous_msg';
 			$rdv_sql       = "CREATE TABLE IF NOT EXISTS $rdv_table_msg (
     			rdv_msg_id INTEGER NOT NULL AUTO_INCREMENT,
-    			rdv_message varchar(255) NOT NULL,
-    			PRIMARY KEY (rdv_msg_id)
+    			rdv_msg_title varchar(50) NOT NULL,
+    			rdv_msg_body varchar(255) NOT NULL,
+    			PRIMARY KEY (rdv_msg_id),
 			)$charset_collate;";
 
 			dbDelta( $rdv_sql );
@@ -110,17 +125,66 @@ if ( ! class_exists( 'RdvQueriesClass' ) ):
 			dbDelta( $rdv_sql );
 		}
 
+		public static function rdv_create_table_settings_function() {
+			global $wpdb, $rdv_table_settings;
+			$charset_collate = $wpdb->get_charset_collate();
+			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+
+			$rdv_table_settings = $wpdb->prefix . 'rendez_vous_settings';
+			$rdv_sql            = "CREATE TABLE IF NOT EXISTS $rdv_table_settings (
+    			rdv_settings_id INTEGER NOT NULL AUTO_INCREMENT,
+    			rdv_sending tinyint DEFAULT 1 NOT NULL,
+    			rdv_receiving tinyint DEFAULT 1 NOT NULL,
+    			PRIMARY KEY (rdv_settings_id)
+			)$charset_collate;";
+
+			dbDelta( $rdv_sql );
+
+			self::rdv_insert_settings();
+		}
+
+		public static function rdv_insert_settings() {
+			global $wpdb, $rdv_table_settings;
+
+			$default_query_array = array(
+				'rdv_settings_id' => null,
+				'rdv_sending'     => 1,
+				'rdv_receiving'   => 1
+			);
+
+			$wpdb->insert( $rdv_table_settings, $default_query_array );
+		}
+
 		/**
-		 * Used for remove the table _rdv from the database.
+		 * Used for remove the tables _rendre_vous_* from the database.
 		 */
 		public static function rdv_drop_table_function() {
-			global $wpdb, $rdv_table, $rdv_table_msg;
-			$rdv_table     = $wpdb->prefix . 'rendez_vous';
-			$rdv_table_msg = $wpdb->prefix . 'rendez_vous_msg';
-			$rdv_drop      = "DROP TABLE IF EXISTS $rdv_table";
-			$rdv_drop_msg  = "DROP TABLE IF EXISTS $rdv_table_msg";
+			global $wpdb, $rdv_table, $rdv_table_msg, $rdv_table_email, $rdv_table_settings;
+
+			$rdv_drop          = "DROP TABLE IF EXISTS $rdv_table";
+			$rdv_drop_msg      = "DROP TABLE IF EXISTS $rdv_table_msg";
+			$rdv_drop_email    = "DROP TABLE IF EXISTS $rdv_table_email";
+			$rdv_drop_settings = "DROP TABLE IF EXISTS $rdv_table_settings";
 			$wpdb->query( $rdv_drop );
 			$wpdb->query( $rdv_drop_msg );
+			$wpdb->query( $rdv_drop_email );
+			$wpdb->query( $rdv_drop_settings );
+		}
+
+		public static function rdv_select_user() {
+			global $wpdb;
+			$administratorStatus = 'a:1:{s:13:\"administrator\";b:1;}';
+
+			$sql = "
+			SELECT *, nickname.meta_value as nickname, wp_capabilities.meta_value as wp_capabilities FROM wp_users
+			INNER JOIN (SELECT user_id, meta_value FROM {$wpdb->usermeta} 
+						WHERE meta_key = 'nickname') as nickname ON {$wpdb->users}.ID = nickname.user_id
+			INNER JOIN (SELECT user_id, meta_value FROM {$wpdb->usermeta} 
+						WHERE meta_key = 'wp_capabilities') as wp_capabilities ON {$wpdb->users}.ID = wp_capabilities.user_id
+			WHERE wp_capabilities.meta_value = '$administratorStatus'
+			";
+
+			return $wpdb->get_results( $sql );
 		}
 
 		/**
@@ -150,6 +214,7 @@ if ( ! class_exists( 'RdvQueriesClass' ) ):
 				'rdv_sentDate'    => $dateTime->format( 'Y-m-d' ),
 				'rdv_schedule'    => $schedule,
 				'rdv_message'     => $message
+				//TODO: Rajouter la relation avec l'user.
 			);
 
 			$table_format = array(

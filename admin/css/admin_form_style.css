@@ -1,7 +1,7 @@
-.style-main-wrapper {
-    min-width: 250px;
-    max-width: 400px;
-}
+/*.style-main-wrapper {*/
+/*    min-width: 250px;*/
+/*    max-width: 400px;*/
+/*}*/
 
 .options-card-style {
     display: flex;
@@ -41,4 +41,25 @@
 
 .div-setting-style p {
     font-weight: bold;
+}
+
+.form-table-style {
+    border-spacing: 2px;
+}
+
+.form-table-style td {
+    width: 500px;
+}
+
+.form-table-style th {
+    padding-bottom: 8px;
+    line-height: 3.2;
+    width: 150px;
+    vertical-align: top;
+    text-align: left;
+}
+
+.form-table-style tr {
+    display: table-row;
+    /*height: 100px;*/
 }
