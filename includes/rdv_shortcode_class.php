@@ -1,4 +1,5 @@
 <?php
+require_once 'rdv_submit_class.php';
 
 if ( ! class_exists( 'RdvShortCode' ) ):
 	class RdvShortCode {
@@ -8,7 +9,7 @@ if ( ! class_exists( 'RdvShortCode' ) ):
 		 */
 		public function rdv_shortcode() {
 			ob_start();
-			$validation = new RdvValidationClass();
+			$validation = new RdvSubmitClass();
 			$validation->rdv_submit_function();
 
 			return ob_get_clean();
