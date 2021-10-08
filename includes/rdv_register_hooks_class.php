@@ -1,7 +1,5 @@
 <?php
 
-require_once 'rdv_queries_class.php';
-
 if ( ! class_exists( 'RdvRegisterHooksClass' ) ):
 	class RdvRegisterHooksClass {
 
@@ -16,17 +14,21 @@ if ( ! class_exists( 'RdvRegisterHooksClass' ) ):
 		 * Used for activation plugin actions.
 		 */
 		public function register_activation() {
-			RdvQueriesClass::rdv_create_table_message_function();
-			RdvQueriesClass::rdv_create_table_function();
-			RdvQueriesClass::rdv_create_table_email_function();
-			RdvQueriesClass::rdv_create_table_settings_function();
+//			RdvQueriesClass::rdv_create_table_message_function();
+//			RdvQueriesClass::rdv_create_table_function();
+			RdvTablesManager::createTableRendezVous();
+//			RdvQueriesClass::rdv_create_table_email_function();
+//			RdvQueriesClass::rdv_create_table_settings_function();
+			RdvTablesManager::createTableSettings();
 		}
 
 		/**
 		 * Used for deactivation plugin actions.
 		 */
 		public function register_deactivation() {
-			RdvQueriesClass::rdv_drop_table_function();
+//			RdvQueriesClass::rdv_drop_table_function();
+			RdvTablesManager::dropTableRendezVous();
+			RdvTablesManager::dropTableSettings();
 		}
 
 //		/**

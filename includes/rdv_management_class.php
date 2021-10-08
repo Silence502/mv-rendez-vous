@@ -1,6 +1,5 @@
 <?php
-
-require_once 'rdv_queries_class.php';
+require_once 'rdv_manager.php';
 
 if ( ! class_exists( 'RdvManagementClass' ) ):
 	class RdvManagementClass {
@@ -38,17 +37,20 @@ if ( ! class_exists( 'RdvManagementClass' ) ):
 			$rdvSchedule    = 'rdv_schedule';
 			$rdvMessage     = 'rdv_message';
 
-			$selectCount          = count( RdvQueriesClass::rdv_select_function() );
-			$selectCountConfirmed = count( RdvQueriesClass::rdv_select_confirmed_function() );
-			$selectCountToConfirm = count( RdvQueriesClass::rdv_select_to_confirm_function() );
+//			$selectCount          = count( RdvQueriesClass::rdv_select_function() );
+			$selectCount = count( RdvManager::selectAll() );
+//			$selectCountConfirmed = count( RdvQueriesClass::rdv_select_confirmed_function() );
+			$selectCountConfirmed = count( RdvManager::selectByConfirmed() );
+//			$selectCountToConfirm = count( RdvQueriesClass::rdv_select_to_confirm_function() );
+			$selectCountToConfirm = count( RdvManager::selectByToConfirm() );
 
 			include_once 'rdv_header_form.php';
 			if ( $selectCount < 1 ) {
 				echo '<h3>Vous n\'avez pas demande de rendez-vous pour le moment.</h3>';
 			} else {
 				echo '<h3>Vous avez ' . $selectCount . ' demande de rendez-vous</h3>';
-				echo '<p class="count-to-confirm-style">Dont <span class="validated-style"><strong>' . $selectCountConfirmed . '</strong></span> 
-				rendez-vous validé(s) et <span class="unvalidated-style"><strong>' . $selectCountToConfirm . '</strong></span> non validés</p><hr>';
+				echo '<p class="count-to-confirm-style">Dont <span class="validated-style"><strong>' . $selectCountToConfirm . '</strong></span> 
+				rendez-vous validé(s) et <span class="unvalidated-style"><strong>' . $selectCountConfirmed . '</strong></span> non validés</p><hr>';
 			}
 			foreach ( RdvQueriesClass::rdv_select_function() as $row ) {
 				$sentDateObject = date_create( $row->$rdvSentDate );
@@ -96,7 +98,7 @@ if ( ! class_exists( 'RdvManagementClass' ) ):
 				';
 
 				if ( isset( $_POST[ $row->$rdvId . '-to-confirm' ] ) ) {
-					self::rdv_confirm(
+					self::rdv_confirmation(
 						$dateObject,
 						$row->$rdvSchedule,
 						$row->$rdvFirstname,
@@ -104,13 +106,15 @@ if ( ! class_exists( 'RdvManagementClass' ) ):
 						$row->$rdvEmail,
 						$row->$rdvPhone,
 					);
-					RdvQueriesClass::rdv_update_function( $row->$rdvId, true );
+					RdvManager::update( $row->$rdvId, true );
+//					RdvQueriesClass::rdv_update_function( $row->$rdvId, true );
 					echo '<meta http-equiv="REFRESH" content="0">';
 				}
 
 				if ( isset( $_POST['submit'] ) ) {
 					if ( ! empty( $_POST[ $row->$rdvId . '-to-delete' ] ) && $row->$rdvIsConfirmed == 1 ) {
-						RdvQueriesClass::rdv_delete_function( $row->$rdvId );
+						RdvManager::delete( $row->$rdvId );
+//						RdvQueriesClass::rdv_delete_function( $row->$rdvId );
 						echo '<meta http-equiv="REFRESH" content="0">';
 					} elseif ( ! empty( $_POST[ $row->$rdvId . '-to-delete' ] ) && $row->$rdvIsConfirmed == 0 ) {
 						echo '
@@ -127,7 +131,8 @@ if ( ! class_exists( 'RdvManagementClass' ) ):
 				}
 
 				if ( isset( $_POST[ $row->$rdvId . '-to-delete-alert' ] ) ) {
-					RdvQueriesClass::rdv_delete_function( $row->$rdvId );
+					RdvManager::delete( $row->$rdvId );
+//					RdvQueriesClass::rdv_delete_function( $row->$rdvId );
 					echo '<meta http-equiv="REFRESH" content="0">';
 				}
 
@@ -145,7 +150,7 @@ if ( ! class_exists( 'RdvManagementClass' ) ):
 		 * @param $phone
 		 * Used for send the email confirmation.
 		 */
-		public static function rdv_confirm( $dateObject, $schedule, $firstname, $lastname, $email, $phone ) {
+		public static function rdv_confirmation( $dateObject, $schedule, $firstname, $lastname, $email, $phone ) {
 			$to      = $email;
 			$subject = 'Confirmation de rendez-vous';
 			$body    = '<h1>Confirmation de rendez-vous</h1>';
