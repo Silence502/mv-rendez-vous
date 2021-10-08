@@ -1,7 +1,7 @@
 <?php
 
 if ( ! class_exists( 'RdvQueriesClassModif' ) ):
-	class RdvQueriesClassModif implements RdvDAO{
+	class RdvQueriesClassModif{
 
 		/**
 		 * ********************************************
@@ -31,21 +31,6 @@ if ( ! class_exists( 'RdvQueriesClassModif' ) ):
 		 * ********************************************
 		 */
 
-		/**
-		 * Used for remove the tables _rendre_vous_* from the database.
-		 */
-		public static function rdv_drop_table_function() {
-			global $wpdb, $rdv_table, $rdv_table_msg, $rdv_table_email, $rdv_table_settings;
-
-			$rdv_drop          = "DROP TABLE IF EXISTS $rdv_table";
-			$rdv_drop_msg      = "DROP TABLE IF EXISTS $rdv_table_msg";
-			$rdv_drop_email    = "DROP TABLE IF EXISTS $rdv_table_email";
-			$rdv_drop_settings = "DROP TABLE IF EXISTS $rdv_table_settings";
-			$wpdb->query( $rdv_drop );
-			$wpdb->query( $rdv_drop_msg );
-			$wpdb->query( $rdv_drop_email );
-			$wpdb->query( $rdv_drop_settings );
-		}
 
 		/**
 		 * ********************************************

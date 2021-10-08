@@ -16,15 +16,14 @@ if ( ! class_exists( 'RdvRegisterHooksClass' ) ):
 		 */
 		public function register_activation() {
 			RdvTablesManager::createTableRendezVous();
-//			RdvQueriesClass::rdv_create_table_email_function();
 			RdvTablesManager::createTableSettings();
+			RdvTablesManager::createTableMessage();
 		}
 
 		/**
 		 * Used for deactivation plugin actions.
 		 */
 		public function register_deactivation() {
-//			RdvQueriesClass::rdv_drop_table_function();
 			RdvTablesManager::dropTableRendezVous();
 			RdvTablesManager::dropTableSettings();
 		}
