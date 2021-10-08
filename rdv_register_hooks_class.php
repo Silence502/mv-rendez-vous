@@ -26,6 +26,7 @@ if ( ! class_exists( 'RdvRegisterHooksClass' ) ):
 		public function register_deactivation() {
 			RdvTablesManager::dropTableRendezVous();
 			RdvTablesManager::dropTableSettings();
+			RdvTablesManager::dropTableMessages();
 		}
 
 //		/**

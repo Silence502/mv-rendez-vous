@@ -21,6 +21,7 @@ if ( ! class_exists( 'RdvSubmitClass' ) ):
 			$adminMail = 'admin@admin.fr';
 
 
+
 			$to      = $adminMail;
 			$subject = 'Demande de rendez-vous';
 			$body    = '<h1>Rendez-vous</h1>';
@@ -40,13 +41,17 @@ if ( ! class_exists( 'RdvSubmitClass' ) ):
 					$message,
 				);
 
-				//TODO: Basculer dans la fonction dédié (RdvEmails).
-				mail(
-					$to,
-					$subject,
-					$body,
-					$header
-				);
+
+				$rdvReceiving = 'rdv_receiving';
+
+				if ( RdvSettingsManager::select()->$rdvReceiving ) {
+					mail(
+						$to,
+						$subject,
+						$body,
+						$header
+					);
+				}
 			}
 
 			include_once 'rdv_generate_form.php';
