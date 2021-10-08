@@ -19,7 +19,6 @@ class RdvQueriesSettingsClass implements RdvSettingsDAO {
 
 		dbDelta( $rdv_sql );
 
-		//TODO: Réaliser l'insertion des données par défauts.
 		self::rdv_insert_settings();
 	}
 
@@ -33,14 +32,14 @@ class RdvQueriesSettingsClass implements RdvSettingsDAO {
 		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
 		$rdv_table_msg = $wpdb->prefix . 'rendez_vous_msg';
-		$rdv_sql       = "CREATE TABLE IF NOT EXISTS $rdv_table_msg (
+		$rdv_sql_msg   = "CREATE TABLE IF NOT EXISTS $rdv_table_msg (
     			rdv_msg_id INTEGER NOT NULL AUTO_INCREMENT,
     			rdv_msg_title varchar(50) NOT NULL,
     			rdv_msg_body varchar(255) NOT NULL,
-    			PRIMARY KEY (rdv_msg_id),
+    			PRIMARY KEY (rdv_msg_id)
 			)$charset_collate;";
 
-		dbDelta( $rdv_sql );
+		dbDelta( $rdv_sql_msg );
 	}
 
 	/**
@@ -50,7 +49,7 @@ class RdvQueriesSettingsClass implements RdvSettingsDAO {
 		global $wpdb, $rdv_table_settings, $rdv_table_msg;
 
 		$rdv_drop_settings = "DROP TABLE IF EXISTS $rdv_table_settings";
-		$rdv_table_msg = "DROP TABLE IF EXISTS $rdv_table_msg";
+		$rdv_table_msg     = "DROP TABLE IF EXISTS $rdv_table_msg";
 		$wpdb->query( $rdv_drop_settings );
 		$wpdb->query( $rdv_table_msg );
 	}
@@ -85,7 +84,7 @@ class RdvQueriesSettingsClass implements RdvSettingsDAO {
 			),
 			array( 'rdv_settings_id' => $id ),
 			array( '%d', '%d' ),
-			array('%d')
+			array( '%d' )
 		);
 	}
 
