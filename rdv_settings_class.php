@@ -3,6 +3,10 @@ require_once 'rdv_settings_manager.php';
 
 if ( ! class_exists( 'RdvSettingsClass' ) ):
 	class RdvSettingsClass {
+
+		/**
+		 *
+		 */
 		public static function rdv_submenu_page() {
 			add_submenu_page(
 				'rdv-management',
@@ -15,7 +19,11 @@ if ( ! class_exists( 'RdvSettingsClass' ) ):
 			);
 		}
 
+		/**
+		 *
+		 */
 		public static function rdv_settings() {
+			$select          = RdvSettingsManager::select();
 			$sending         = 'rdv_sending';
 			$receiving       = 'rdv_receiving';
 			$id              = 1;
@@ -28,24 +36,22 @@ if ( ! class_exists( 'RdvSettingsClass' ) ):
 			<div class="div-setting-style">
 			    <div>
 			        <p>Je souhaite recevoir par email les demandes de rendez-vous :</p>';
-			if ( RdvSettingsManager::select()->$sending === 1 ) {
+			if ( $select->$receiving ) {
 				echo '
 							        <div>
-			            <input checked type="radio" id="yes-01" name="yes-no-01" class="radio-input" value="oui"> Oui
+			            <input checked type="radio" id="yes-01" name="yes-no-01" class="radio-input" value="yes"> Oui
 			        </div>
 			        <div>
-			            <input type="radio" id="no-01" name="yes-no-01" class="radio-input" value="non"> Non
+			            <input type="radio" id="no-01" name="yes-no-01" class="radio-input" value="no"> Non
 			        </div>
 				';
 			} else {
 				echo '
 							        <div>
-			            <input type="radio" id="yes-01" name="yes-no-01" class="radio-input">
-			            <label for="yes-01">Oui</label>
+			            <input type="radio" id="yes-01" name="yes-no-01" class="radio-input" value="yes"> Oui
 			        </div>
 			        <div>
-			            <input checked type="radio" id="no-01" name="yes-no-01" class="radio-input">
-			            <label for="no-01">Non</label>
+			            <input checked type="radio" id="no-01" name="yes-no-01" class="radio-input" value="no"> Non
 			        </div>
 				';
 			}
@@ -53,26 +59,22 @@ if ( ! class_exists( 'RdvSettingsClass' ) ):
 			    </div>
 			    <div>
 			        <p>Je souhaite envoyer un email automatique lorsque je valide un rendez-vous :</p>';
-			if ( RdvSettingsManager::select()->$receiving === 1 ) {
+			if ( $select->$sending ) {
 				echo '
 			        <div>
-			            <input checked type="radio" id="yes-02" name="yes-no-02" class="radio-input">
-			            <label for="yes-02">Oui</label>
+			            <input checked type="radio" id="yes-02" name="yes-no-02" class="radio-input" value="yes"> Oui
 			        </div>
 			        <div>
-			            <input type="radio" id="no-02" name="yes-no-02" class="radio-input">
-			            <label for="no-02">Non</label>
+			            <input type="radio" id="no-02" name="yes-no-02" class="radio-input" value="no"> Non
 			        </div>
 				';
 			} else {
 				echo '
 			        <div>
-			            <input type="radio" id="yes-02" name="yes-no-02" class="radio-input">
-			            <label for="yes-02">Oui</label>
+			            <input type="radio" id="yes-02" name="yes-no-02" class="radio-input" value="yes"> Oui
 			        </div>
 			        <div>
-			            <input checked type="radio" id="no-02" name="yes-no-02" class="radio-input">
-			            <label for="no-02">Non</label>
+			            <input checked type="radio" id="no-02" name="yes-no-02" class="radio-input" value="no"> Non
 			        </div>
 				';
 			}
@@ -114,16 +116,20 @@ if ( ! class_exists( 'RdvSettingsClass' ) ):
 			</div>
 			';
 
+			include_once 'includes/rdv_footer_form.php';
+
 			if ( isset( $_POST['submit'] ) ) {
-				if ( strcmp($_POST['yes-no-01'], 'oui') ) {
-					RdvSettingsManager::update(1, true, null);
-				} else {
-					RdvSettingsManager::update(1, false, null);
+				if ( $_POST['yes-no-01'] === 'yes' && $_POST['yes-no-02'] === 'yes' ) {
+					RdvSettingsManager::update( $id, true, true );
+				} elseif ( $_POST['yes-no-01'] === 'yes' && $_POST['yes-no-02'] === 'no' ) {
+					RdvSettingsManager::update( $id, false, true );
+				} elseif ( $_POST['yes-no-01'] === 'no' && $_POST['yes-no-02'] === 'yes' ) {
+					RdvSettingsManager::update( $id, true, false );
+				} elseif ( $_POST['yes-no-01'] === 'no' && $_POST['yes-no-02'] === 'no' ) {
+					RdvSettingsManager::update( $id, false, false );
 				}
 				echo '<meta http-equiv="REFRESH" content="0">';
 			}
-
-			include_once 'includes/rdv_footer_form.php';
 		}
 	}
 endif;

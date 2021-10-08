@@ -8,6 +8,7 @@ interface RdvSettingsDAO {
 	 */
 
 	public static function rdv_create_table_settings_function();
+	public static function rdv_create_table_message_function();
 
 	/**
 	 * ********************************************
@@ -15,7 +16,7 @@ interface RdvSettingsDAO {
 	 * ********************************************
 	 */
 
-	public static function rdv_drop_table_function();
+	public static function rdv_drop_table_settings_function();
 
 	/**
 	 * ********************************************

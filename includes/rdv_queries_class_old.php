@@ -9,26 +9,6 @@ if ( ! class_exists( 'RdvQueriesClassModif' ) ):
 		 * ********************************************
 		 */
 
-		/**
-		 * Used for adding a new table _rendez_vous_msg in the database.
-		 */
-		public static function rdv_create_table_message_function() {
-			global $wpdb, $rdv_table_msg;
-
-			$charset_collate = $wpdb->get_charset_collate();
-			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
-
-			$rdv_table_msg = $wpdb->prefix . 'rendez_vous_msg';
-			$rdv_sql       = "CREATE TABLE IF NOT EXISTS $rdv_table_msg (
-    			rdv_msg_id INTEGER NOT NULL AUTO_INCREMENT,
-    			rdv_msg_title varchar(50) NOT NULL,
-    			rdv_msg_body varchar(255) NOT NULL,
-    			PRIMARY KEY (rdv_msg_id),
-			)$charset_collate;";
-
-			dbDelta( $rdv_sql );
-		}
-
 		public static function rdv_create_table_email_function() {
 			global $wpdb, $rdv_table_email;
 
