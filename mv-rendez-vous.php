@@ -11,11 +11,11 @@
  * Domain Path:       /languages
  */
 
-require_once 'includes/rdv_management_class.php';
-require_once 'includes/rdv_register_hooks_class.php';
+require_once 'rdv_management_class.php';
+require_once 'rdv_register_hooks_class.php';
 require_once 'includes/rdv_validation_class.php';
 require_once 'includes/rdv_shortcode_class.php';
-require_once 'includes/rdv_settings_class.php';
+require_once 'rdv_settings_class.php';
 
 add_action( 'admin_menu', array( 'RdvManagementClass', 'rdv_management_page' ) );
 add_action( 'admin_menu', array( 'RdvSettingsClass', 'rdv_submenu_page' ) );

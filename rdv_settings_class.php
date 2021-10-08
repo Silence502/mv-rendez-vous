@@ -22,7 +22,7 @@ if ( ! class_exists( 'RdvSettingsClass' ) ):
 			$sending_param   = 1;
 			$receiving_param = 1;
 
-			include_once 'rdv_header_form.php';
+			include_once 'includes/rdv_header_form.php';
 
 			echo '
 			<div class="div-setting-style">
@@ -123,7 +123,7 @@ if ( ! class_exists( 'RdvSettingsClass' ) ):
 				echo '<meta http-equiv="REFRESH" content="0">';
 			}
 
-			include_once 'rdv_footer_form.php';
+			include_once 'includes/rdv_footer_form.php';
 		}
 	}
 endif;

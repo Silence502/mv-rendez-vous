@@ -1,14 +1,13 @@
 <?php
-include __DIR__ . '/../rdv_config.php';
-include RDV_DIR . '/includes/dal/rdv_dao_factory.php';
+require_once 'includes/dal/rdv_dao_factory.php';
 
-if ( ! class_exists( 'RdvManager' ) ):
-	class RdvManager {
+if ( ! class_exists( 'RdvManagerClass' ) ):
+	class RdvManagerClass {
 		//TODO: Voir pour mettre la variable en protected.
 		public static function insert( $firstname, $lastname, $email, $phone, $date, $schedule, $message ) {
 			global $rdvDAO;
 			$rdvDAO = RdvDAOFactory::getRdvQueriesClass();
-			RdvValidation::validation_rdv( $firstname, $lastname, $email, $phone, $date, $schedule, $message );
+			RdvValidationClass::validation_rdv( $firstname, $lastname, $email, $phone, $date, $schedule, $message );
 			$rdvDAO->rdv_insert_function( $firstname, $lastname, $email, $phone, $date, $schedule, $message );
 		}
 

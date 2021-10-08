@@ -1,4 +1,5 @@
 <?php
+require_once 'includes/dal/rdv_dao_factory.php';
 
 if ( ! class_exists( 'RdvTablesManager' ) ):
 	class RdvTablesManager {

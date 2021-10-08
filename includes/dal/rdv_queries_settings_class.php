@@ -1,4 +1,5 @@
 <?php
+require_once 'dao/rdv_settings_dao.php';
 
 class RdvQueriesSettingsClass implements RdvSettingsDAO {
 

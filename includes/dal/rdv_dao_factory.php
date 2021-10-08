@@ -1,7 +1,6 @@
 <?php
-require_once __DIR__ . '/../../rdv_config.php';
-include RDV_DIR . 'includes/rdv_queries_class.php';
-include RDV_DIR . 'includes/rdv_queries_settings_class.php';
+require_once 'rdv_queries_class.php';
+require_once 'rdv_queries_settings_class.php';
 
 abstract class RdvDAOFactory {
 

@@ -1,5 +1,5 @@
 <?php
-require_once 'rdv_manager.php';
+require_once 'rdv_manager_class.php';
 
 if ( ! class_exists( 'RdvManagementClass' ) ):
 	class RdvManagementClass {
@@ -38,13 +38,13 @@ if ( ! class_exists( 'RdvManagementClass' ) ):
 			$rdvMessage     = 'rdv_message';
 
 //			$selectCount          = count( RdvQueriesClass::rdv_select_function() );
-			$selectCount = count( RdvManager::selectAll() );
+			$selectCount = count( RdvManagerClass::selectAll() );
 //			$selectCountConfirmed = count( RdvQueriesClass::rdv_select_confirmed_function() );
-			$selectCountConfirmed = count( RdvManager::selectByConfirmed() );
+			$selectCountConfirmed = count( RdvManagerClass::selectByConfirmed() );
 //			$selectCountToConfirm = count( RdvQueriesClass::rdv_select_to_confirm_function() );
-			$selectCountToConfirm = count( RdvManager::selectByToConfirm() );
+			$selectCountToConfirm = count( RdvManagerClass::selectByToConfirm() );
 
-			include_once 'rdv_header_form.php';
+			include_once 'includes/rdv_header_form.php';
 			if ( $selectCount < 1 ) {
 				echo '<h3>Vous n\'avez pas demande de rendez-vous pour le moment.</h3>';
 			} else {
@@ -106,14 +106,14 @@ if ( ! class_exists( 'RdvManagementClass' ) ):
 						$row->$rdvEmail,
 						$row->$rdvPhone,
 					);
-					RdvManager::update( $row->$rdvId, true );
+					RdvManagerClass::update( $row->$rdvId, true );
 //					RdvQueriesClass::rdv_update_function( $row->$rdvId, true );
 					echo '<meta http-equiv="REFRESH" content="0">';
 				}
 
 				if ( isset( $_POST['submit'] ) ) {
 					if ( ! empty( $_POST[ $row->$rdvId . '-to-delete' ] ) && $row->$rdvIsConfirmed == 1 ) {
-						RdvManager::delete( $row->$rdvId );
+						RdvManagerClass::delete( $row->$rdvId );
 //						RdvQueriesClass::rdv_delete_function( $row->$rdvId );
 						echo '<meta http-equiv="REFRESH" content="0">';
 					} elseif ( ! empty( $_POST[ $row->$rdvId . '-to-delete' ] ) && $row->$rdvIsConfirmed == 0 ) {
@@ -131,14 +131,14 @@ if ( ! class_exists( 'RdvManagementClass' ) ):
 				}
 
 				if ( isset( $_POST[ $row->$rdvId . '-to-delete-alert' ] ) ) {
-					RdvManager::delete( $row->$rdvId );
+					RdvManagerClass::delete( $row->$rdvId );
 //					RdvQueriesClass::rdv_delete_function( $row->$rdvId );
 					echo '<meta http-equiv="REFRESH" content="0">';
 				}
 
 				echo '</div>';
 			}
-			include_once 'rdv_footer_form.php';
+			include_once 'includes/rdv_footer_form.php';
 		}
 
 		/**

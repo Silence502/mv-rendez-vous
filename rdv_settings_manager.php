@@ -1,6 +1,5 @@
 <?php
-require_once 'rdv_settings_dao.php';
-require_once 'rdv_dao_factory.php';
+require_once 'includes/dal/rdv_dao_factory.php';
 
 if ( ! class_exists( 'RdvSettingsManager' ) ):
 	class RdvSettingsManager {
