@@ -1,20 +1,19 @@
 <?php
 /**
+ * @package MVRendezVous
  * Plugin Name:       MV Rendez-vous
  * Description:       Module de prise de rendez-vous.
- * Version:           1.0.0
+ * Version:           1.1.0
  * Author:            Mickael VIDAL
- * Author URI:        https://author.example.com/
  * License:           GPL v2 or later
- * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain:       my-basics-plugin
+ * Text Domain:       MV Rendez-vous
  * Domain Path:       /languages
  */
 
 require_once 'rdv_management_class.php';
 require_once 'rdv_register_hooks_class.php';
 require_once 'includes/rdv_validation_class.php';
-require_once 'includes/rdv_shortcode_class.php';
+require_once 'rdv_shortcode_class.php';
 require_once 'rdv_settings_class.php';
 
 add_action( 'admin_menu', array( 'RdvManagementClass', 'rdv_management_page' ) );

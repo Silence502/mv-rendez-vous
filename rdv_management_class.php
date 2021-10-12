@@ -1,5 +1,6 @@
 <?php
 require_once 'rdv_manager_class.php';
+require_once 'includes/rdv_message_manager.php';
 
 if ( ! class_exists( 'RdvManagementClass' ) ):
 	class RdvManagementClass {
@@ -130,7 +131,6 @@ if ( ! class_exists( 'RdvManagementClass' ) ):
 
 				if ( isset( $_POST[ $row->$rdvId . '-to-delete-alert' ] ) ) {
 					RdvManagerClass::delete( $row->$rdvId );
-//					RdvQueriesClass::rdv_delete_function( $row->$rdvId );
 					echo '<meta http-equiv="REFRESH" content="0">';
 				}
 
@@ -151,22 +151,23 @@ if ( ! class_exists( 'RdvManagementClass' ) ):
 		public static function rdv_confirmation( $dateObject, $schedule, $firstname, $lastname, $email, $phone ) {
 			$selectMessage = RdvMessageManager::select();
 			$rdvSending    = 'rdv_sending';
+			$from          = 'rdv_msg_email';
 			$to            = $email;
 			$subjectCol    = 'rdv_msg_subject';
 			$titleCol      = 'rdv_msg_title';
 			$bodyCol       = 'rdv_msg_body';
-			$subject       = $selectMessage->$subjectCol;
-			$body          = '<h1>' . $selectMessage->$titleCol . '</h1>';
-			$body          .= '<p>' . $selectMessage->$bodyCol . '</p>';
-			$body          .= '<p>Pour rappel :</p>';
-			$body          .= '<ul>';
-			$body          .= '<li>Nom et prénom : ' . $firstname . ' ' . $lastname . '.</li>';
-			$body          .= '<li>Date : ' . date_format( $dateObject, 'd/m/y' ) . '</li> entre ' . $schedule . '.<br>';
-			$body          .= '<li>Numéro de contact : ' . $phone . '</li>  lors de votre demande.</p><br>';
-			$body          .= '<p>Cordialement,</p>';
-			$body          .= '<hr>';
-			$body          .= '<i>' . $_POST['message'] . '</i>';
-			$header        = 'Content-Type: text/html' . "\r\n" . 'From: admin@admin.com';
+
+			$subject = $selectMessage->$subjectCol;
+			$body    = '<h1>' . $selectMessage->$titleCol . '</h1>';
+			$body    .= '<p>' . $selectMessage->$bodyCol . '</p>';
+			$body    .= '<p>Pour rappel, voici les informations communiqués :</p>';
+			$body    .= '<ul>';
+			$body    .= '<li>Nom : ' . $firstname . ' ' . $lastname . '.</li>';
+			$body    .= '<li>Date : ' . date_format( $dateObject, 'd/m/y' ) . ' entre ' . $schedule . '.</li>';
+			$body    .= '<li>Numéro de contact : ' . $phone . '</li>';
+			$body    .= '<p>Cordialement,</p>';
+			$body    .= '<hr>';
+			$header  = 'Content-Type: text/html' . "\r\n" . 'From: ' . RdvMessageManager::select()->$from;
 
 			if ( RdvSettingsManager::select()->$rdvSending ) {
 				mail(

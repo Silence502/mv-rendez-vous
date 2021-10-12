@@ -28,5 +28,4 @@ abstract class RdvDAOFactory {
 		require_once 'rdv_queries_message_class.php';
 		return new RdvQueriesMessageClass();
 	}
-
 }

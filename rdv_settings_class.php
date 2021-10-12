@@ -26,15 +26,19 @@ if ( ! class_exists( 'RdvSettingsClass' ) ):
 			require_once 'includes/rdv_message_manager.php';
 			$selectSettings  = RdvSettingsManager::select();
 			$selectMessage   = RdvMessageManager::select();
+			$selectAdmins    = RdvMessageManager::selectAdmins();
 			$sending         = 'rdv_sending';
 			$receiving       = 'rdv_receiving';
 			$rdvSettingsId   = 'rdv_settings_id';
 			$sending_param   = 1;
 			$receiving_param = 1;
 			$rdvMsgId        = 'rdv_msg_id';
+			$rdvMsgEmail     = 'rdv_msg_email';
 			$rdvMsgSubject   = 'rdv_msg_subject';
 			$rdvMsgTitle     = 'rdv_msg_title';
 			$rdvMsgBody      = 'rdv_msg_body';
+			$userNickname    = 'nickname';
+			$userEmail       = 'user_email';
 
 			include_once 'includes/rdv_header_form.php';
 
@@ -116,27 +120,57 @@ if ( ! class_exists( 'RdvSettingsClass' ) ):
 			                <td>
 			                    <textarea id="body" name="body" rows="10" cols="50" class="large-text">' . $selectMessage->$rdvMsgBody . '</textarea>
 			                </td>
+			            </tr>';
+
+			echo '
+			            <tr>
+			                <th scope="row">
+			                    <label for="body">Administrateur</label>
+			                </th>
+			                <td>
+			                    <select id="admin-list" name="admin-list">';
+			foreach ( $selectAdmins as $row ) {
+				if ( $row->$userEmail === $selectMessage->$rdvMsgEmail ) {
+					echo '<option selected value = "' . $row->$userEmail . '" >' . $row->$userNickname . '</option >';
+				} else {
+					echo '<option value = "' . $row->$userEmail . '" >' . $row->$userNickname . '</option >';
+				}
+			};
+			echo '					
+								</select>
+			                </td>
 			            </tr>
-			        </tbody>
-			    </table>
-			</div>
+                        <tr>
+			                <th scope="row">
+			                    <label for="body">Email</label>
+			                </th>
+			                <td>
+			                    <p>' . $selectMessage->$rdvMsgEmail . '</p>
+			                </td>
+			            </tr>
+						</tbody >
+				    </table >
+				</div >
 			';
+
 
 			include_once 'includes/rdv_footer_form.php';
 
 			if ( isset( $_POST['submit'] ) ) {
-				if ( $_POST['yes-no-01'] === 'yes' && $_POST['yes-no-02'] === 'yes' ) {
+				if ( $_POST['yes - no - 01'] === 'yes' && $_POST['yes - no - 02'] === 'yes' ) {
 					RdvSettingsManager::update( $selectSettings->$rdvSettingsId, true, true );
-				} elseif ( $_POST['yes-no-01'] === 'yes' && $_POST['yes-no-02'] === 'no' ) {
+				} elseif ( $_POST['yes - no - 01'] === 'yes' && $_POST['yes - no - 02'] === 'no' ) {
 					RdvSettingsManager::update( $selectSettings->$rdvSettingsId, false, true );
-				} elseif ( $_POST['yes-no-01'] === 'no' && $_POST['yes-no-02'] === 'yes' ) {
+				} elseif ( $_POST['yes - no - 01'] === 'no' && $_POST['yes - no - 02'] === 'yes' ) {
 					RdvSettingsManager::update( $selectSettings->$rdvSettingsId, true, false );
-				} elseif ( $_POST['yes-no-01'] === 'no' && $_POST['yes-no-02'] === 'no' ) {
+				} elseif ( $_POST['yes - no - 01'] === 'no' && $_POST['yes - no - 02'] === 'no' ) {
 					RdvSettingsManager::update( $selectSettings->$rdvSettingsId, false, false );
 				}
 
-				//TODO: Faire l'update pour la table message.
-				echo '<meta http-equiv="REFRESH" content="0">';
+				if ( isset( $_POST['subject'], $_POST['title'], $_POST['body'] ) ) {
+					RdvMessageManager::update( $selectMessage->$rdvMsgId, $_POST['admin-list'], $_POST['subject'], $_POST['title'], $_POST['body'] );
+				}
+				echo '<meta http-equiv = "REFRESH" content = "0">';
 			}
 		}
 	}

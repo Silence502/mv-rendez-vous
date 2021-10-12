@@ -1,4 +1,5 @@
 <?php
+require_once 'rdv_settings_manager.php';
 
 if ( ! class_exists( 'RdvSubmitClass' ) ):
 	class RdvSubmitClass {
@@ -10,6 +11,7 @@ if ( ! class_exists( 'RdvSubmitClass' ) ):
 		 */
 		public function rdv_submit_function() {
 			$dateObject = date_create( $_POST['date'] );
+			$emailCol   = 'rdv_msg_email';
 
 			$firstname = sanitize_text_field( $_POST['firstname'] );
 			$lastname  = sanitize_text_field( $_POST['lastname'] );
@@ -18,8 +20,7 @@ if ( ! class_exists( 'RdvSubmitClass' ) ):
 			$phone     = sanitize_text_field( $_POST['phone'] );
 			$date      = $_POST['date'];
 			$schedule  = $_POST['schedule'];
-			$adminMail = 'admin@admin.fr';
-
+			$adminMail = RdvMessageManager::select()->$emailCol;
 
 
 			$to      = $adminMail;
@@ -54,7 +55,7 @@ if ( ! class_exists( 'RdvSubmitClass' ) ):
 				}
 			}
 
-			include_once 'rdv_generate_form.php';
+			include_once 'includes/rdv_generate_form.php';
 		}
 	}
 endif;

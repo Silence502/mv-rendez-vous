@@ -26,13 +26,15 @@ interface RdvMessageDAO {
 
 	public static function rdv_select_message();
 
+	public static function rdv_select_admins();
+
 	/**
 	 * ********************************************
 	 * UPDATE METHODS
 	 * ********************************************
 	 */
 
-	public static function rdv_update_settings_function($id, $subject, $body);
+	public static function rdv_update_settings_function( $id, $email, $subject, $title, $body );
 
 	/**
 	 * ********************************************
