@@ -1,8 +1,3 @@
-/*.style-main-wrapper {*/
-/*    min-width: 250px;*/
-/*    max-width: 400px;*/
-/*}*/
-
 .options-card-style {
     display: flex;
     justify-content: space-around;
@@ -25,6 +20,10 @@
     margin-top: 10px;
     margin-bottom: 10px;
     color: red;
+}
+
+.btn-alert-style {
+    margin-top: 10px;
 }
 
 .count-to-confirm-style {
@@ -61,5 +60,4 @@
 
 .form-table-style tr {
     display: table-row;
-    /*height: 100px;*/
 }

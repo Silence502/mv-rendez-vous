@@ -20,16 +20,16 @@ if ( ! class_exists( 'RdvTablesManager' ) ):
 		}
 
 		public static function createTableMessage() {
-			$rdvSettingsDAO = RdvDAOFactory::getRdvQueriesSettingsClass();
-			$rdvSettingsDAO->rdv_create_table_message_function();
+			$rdvMessageDAO = RdvDAOFactory::getRdvQueriesMessageClass();
+			$rdvMessageDAO->rdv_create_table_message_function();
 		}
 
 		/**
 		 * Used for get drop query : rendez-vous table.
 		 */
 		public static function dropTableRendezVous() {
-			$rdvSettingsDAO = RdvDAOFactory::getRdvQueriesClass();
-			$rdvSettingsDAO->rdv_drop_table_function();
+			$rdvDAO = RdvDAOFactory::getRdvQueriesClass();
+			$rdvDAO->rdv_drop_table_function();
 		}
 
 		/**
@@ -40,6 +40,13 @@ if ( ! class_exists( 'RdvTablesManager' ) ):
 			$rdvSettingsDAO->rdv_drop_table_settings_function();
 		}
 
+		/**
+		 * Used for get drop query : settings tables.
+		 */
+		public static function dropTableMessages() {
+			$rdvMessageDAO = RdvDAOFactory::getRdvQueriesMessageClass();
+			$rdvMessageDAO->rdv_drop_table_message_function();
+		}
 
 	}
 endif;

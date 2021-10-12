@@ -1,13 +1,14 @@
 <?php
 
-interface RdvSettingsDAO {
+interface RdvMessageDAO {
+
 	/**
 	 * ********************************************
 	 * CREATE TABLE METHODS
 	 * ********************************************
 	 */
 
-	public static function rdv_create_table_settings_function();
+	public static function rdv_create_table_message_function();
 
 	/**
 	 * ********************************************
@@ -15,7 +16,7 @@ interface RdvSettingsDAO {
 	 * ********************************************
 	 */
 
-	public static function rdv_drop_table_settings_function();
+	public static function rdv_drop_table_message_function();
 
 	/**
 	 * ********************************************
@@ -23,7 +24,9 @@ interface RdvSettingsDAO {
 	 * ********************************************
 	 */
 
-	public static function rdv_select_settings();
+	public static function rdv_select_message();
+
+	public static function rdv_select_admins();
 
 	/**
 	 * ********************************************
@@ -31,7 +34,7 @@ interface RdvSettingsDAO {
 	 * ********************************************
 	 */
 
-	public static function rdv_update_settings_function($id, $sending, $receiving);
+	public static function rdv_update_settings_function( $id, $email, $subject, $title, $body );
 
 	/**
 	 * ********************************************
@@ -39,6 +42,6 @@ interface RdvSettingsDAO {
 	 * ********************************************
 	 */
 
-	public static function rdv_insert_settings();
+	public static function rdv_insert_message();
 
 }

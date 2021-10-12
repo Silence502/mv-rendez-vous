@@ -38,29 +38,6 @@ if ( ! class_exists( 'RdvQueriesClassModif' ) ):
 		 * ********************************************
 		 */
 
-
-
-		/**
-		 * @return array|object|null
-		 * Used for select users.
-		 */
-		public static function rdv_select_administrators() {
-			global $wpdb;
-
-			$administratorStatus = 'a:1:{s:13:\"administrator\";b:1;}';
-
-			$sql = "
-			SELECT *, nickname.meta_value as nickname, wp_capabilities.meta_value as wp_capabilities FROM wp_users
-			INNER JOIN (SELECT user_id, meta_value FROM {$wpdb->usermeta} 
-						WHERE meta_key = 'nickname') as nickname ON {$wpdb->users}.ID = nickname.user_id
-			INNER JOIN (SELECT user_id, meta_value FROM {$wpdb->usermeta} 
-						WHERE meta_key = 'wp_capabilities') as wp_capabilities ON {$wpdb->users}.ID = wp_capabilities.user_id
-			WHERE wp_capabilities.meta_value = '$administratorStatus'
-			";
-
-			return $wpdb->get_results( $sql );
-		}
-
 		/**
 		 * ********************************************
 		 * DELETE QUERIES SECTION
