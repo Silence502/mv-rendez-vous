@@ -1,47 +1,79 @@
 <?php
 
-interface RdvMessageDAO {
+if ( ! interface_exists( 'RdvMessageDAO' ) ):
+	interface RdvMessageDAO {
 
-	/**
-	 * ********************************************
-	 * CREATE TABLE METHODS
-	 * ********************************************
-	 */
+		/*
+		 * ********************************************
+		 * CREATE TABLE METHODS
+		 * ********************************************
+		 */
 
-	public static function rdv_create_table_message_function();
+		/**
+		 * @return mixed
+		 * Used for create table.
+		 */
+		public static function rdv_create_table_message_function();
 
-	/**
-	 * ********************************************
-	 * DROP TABLE METHODS
-	 * ********************************************
-	 */
+		/*
+		 * ********************************************
+		 * DROP TABLE METHODS
+		 * ********************************************
+		 */
 
-	public static function rdv_drop_table_message_function();
+		/**
+		 * @return mixed
+		 * Used for drop table.
+		 */
+		public static function rdv_drop_table_message_function();
 
-	/**
-	 * ********************************************
-	 * SELECT METHODS
-	 * ********************************************
-	 */
+		/*
+		 * ********************************************
+		 * SELECT METHODS
+		 * ********************************************
+		 */
 
-	public static function rdv_select_message();
+		/**
+		 * @return mixed
+		 * Used for select all data.
+		 */
+		public static function rdv_select_message();
 
-	public static function rdv_select_admins();
+		/**
+		 * @return mixed
+		 * Used for select all administrators.
+		 */
+		public static function rdv_select_admins();
 
-	/**
-	 * ********************************************
-	 * UPDATE METHODS
-	 * ********************************************
-	 */
+		/*
+		 * ********************************************
+		 * UPDATE METHODS
+		 * ********************************************
+		 */
 
-	public static function rdv_update_settings_function( $id, $email, $subject, $title, $body );
+		/**
+		 * @param $id
+		 * @param $email
+		 * @param $subject
+		 * @param $title
+		 * @param $body
+		 *
+		 * @return mixed
+		 * Used for update message by id.
+		 */
+		public static function rdv_update_message_function( $id, $email, $subject, $title, $body );
 
-	/**
-	 * ********************************************
-	 * INSERT QUERIES SECTION
-	 * ********************************************
-	 */
+		/*
+		 * ********************************************
+		 * INSERT QUERIES SECTION
+		 * ********************************************
+		 */
 
-	public static function rdv_insert_message();
+		/**
+		 * @return mixed
+		 * Used for insert the default values.
+		 */
+		public static function rdv_insert_message();
 
-}
+	}
+endif;

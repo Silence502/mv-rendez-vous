@@ -4,6 +4,9 @@ require_once 'rdv_tables_manager.php';
 if ( ! class_exists( 'RdvRegisterHooksClass' ) ):
 	class RdvRegisterHooksClass {
 
+		/**
+		 * Used for initiate the class.
+		 */
 		public function __construct() {
 			$this->register_activation();
 			$this->register_deactivation();

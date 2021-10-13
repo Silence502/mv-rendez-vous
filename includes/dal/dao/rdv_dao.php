@@ -1,55 +1,104 @@
 <?php
 
-interface RdvDAO {
+if ( ! interface_exists( 'RdvDAO' ) ):
+	interface RdvDAO {
 
-	/**
-	 * ********************************************
-	 * CREATE TABLE METHODS
-	 * ********************************************
-	 */
+		/*
+		 * ********************************************
+		 * CREATE TABLE METHODS
+		 * ********************************************
+		 */
 
-	public static function rdv_create_table_function();
+		/**
+		 * @return mixed
+		 * Used for create table.
+		 */
+		public static function rdv_create_table_function();
 
-	/**
-	 * ********************************************
-	 * DROP TABLE METHODS
-	 * ********************************************
-	 */
+		/*
+		 * ********************************************
+		 * DROP TABLE METHODS
+		 * ********************************************
+		 */
 
-	public static function rdv_drop_table_function();
+		/**
+		 * @return mixed
+		 * Used for drop table.
+		 */
+		public static function rdv_drop_table_function();
 
-	/**
-	 * ********************************************
-	 * SELECT METHODS
-	 * ********************************************
-	 */
+		/*
+		 * ********************************************
+		 * SELECT METHODS
+		 * ********************************************
+		 */
 
-	public static function rdv_select_function();
-	public static function rdv_select_confirmed_function();
-	public static function rdv_select_to_confirm_function();
+		/**
+		 * @return mixed
+		 * Used for select all data.
+		 */
+		public static function rdv_select_function();
 
-	/**
-	 * ********************************************
-	 * DELETE METHODS
-	 * ********************************************
-	 */
+		/**
+		 * @return mixed
+		 * Used for select by isConfirmed true.
+		 */
+		public static function rdv_select_confirmed_function();
 
-	public static function rdv_delete_function( $id );
+		/**
+		 * @return mixed
+		 * Used for select by isConfirmed false.
+		 */
+		public static function rdv_select_to_confirm_function();
 
-	/**
-	 * ********************************************
-	 * UPDATE METHODS
-	 * ********************************************
-	 */
+		/*
+		 * ********************************************
+		 * DELETE METHODS
+		 * ********************************************
+		 */
 
-	public static function rdv_update_function( $id, $checked );
+		/**
+		 * @param $id
+		 *
+		 * @return mixed
+		 * Used for delete by id.
+		 */
+		public static function rdv_delete_function( $id );
 
-	/**
-	 * ********************************************
-	 * INSERT METHODS
-	 * ********************************************
-	 */
+		/*
+		 * ********************************************
+		 * UPDATE METHODS
+		 * ********************************************
+		 */
 
-	public static function rdv_insert_function( $firstname, $lastname, $email, $phone, $date, $schedule, $message );
+		/**
+		 * @param $id
+		 * @param $checked
+		 *
+		 * @return mixed
+		 * Used for update by id. Data to update : isConfirmed.
+		 */
+		public static function rdv_update_function( $id, $checked );
 
-}
+		/*
+		 * ********************************************
+		 * INSERT METHODS
+		 * ********************************************
+		 */
+
+		/**
+		 * @param $firstname
+		 * @param $lastname
+		 * @param $email
+		 * @param $phone
+		 * @param $date
+		 * @param $schedule
+		 * @param $message
+		 *
+		 * @return mixed
+		 * Used for insert query.
+		 */
+		public static function rdv_insert_function( $firstname, $lastname, $email, $phone, $date, $schedule, $message );
+
+	}
+endif;

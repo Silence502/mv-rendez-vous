@@ -1,44 +1,69 @@
 <?php
 
-interface RdvSettingsDAO {
-	/**
-	 * ********************************************
-	 * CREATE TABLE METHODS
-	 * ********************************************
-	 */
+if ( ! interface_exists( 'RdvSettingsDAO' ) ):
+	interface RdvSettingsDAO {
 
-	public static function rdv_create_table_settings_function();
+		/*
+		 * ********************************************
+		 * CREATE TABLE METHODS
+		 * ********************************************
+		 */
 
-	/**
-	 * ********************************************
-	 * DROP TABLE METHODS
-	 * ********************************************
-	 */
+		/**
+		 * @return mixed
+		 * Used for create table.
+		 */
+		public static function rdv_create_table_settings_function();
 
-	public static function rdv_drop_table_settings_function();
+		/*
+		 * ********************************************
+		 * DROP TABLE METHODS
+		 * ********************************************
+		 */
 
-	/**
-	 * ********************************************
-	 * SELECT METHODS
-	 * ********************************************
-	 */
+		/**
+		 * @return mixed
+		 * Used for drop table.
+		 */
+		public static function rdv_drop_table_settings_function();
 
-	public static function rdv_select_settings();
+		/*
+		 * ********************************************
+		 * SELECT METHODS
+		 * ********************************************
+		 */
 
-	/**
-	 * ********************************************
-	 * UPDATE METHODS
-	 * ********************************************
-	 */
+		/**
+		 * @return mixed
+		 * Used for select settings.
+		 */
+		public static function rdv_select_settings();
 
-	public static function rdv_update_settings_function($id, $sending, $receiving);
+		/*
+		 * ********************************************
+		 * UPDATE METHODS
+		 * ********************************************
+		 */
 
-	/**
-	 * ********************************************
-	 * INSERT QUERIES SECTION
-	 * ********************************************
-	 */
+		/**
+		 * @param $id
+		 * @param $sending
+		 * @param $receiving
+		 *
+		 * @return mixed
+		 */
+		public static function rdv_update_settings_function( $id, $sending, $receiving );
 
-	public static function rdv_insert_settings();
+		/*
+		 * ********************************************
+		 * INSERT QUERIES SECTION
+		 * ********************************************
+		 */
 
-}
+		/**
+		 * @return mixed
+		 */
+		public static function rdv_insert_settings();
+
+	}
+endif;

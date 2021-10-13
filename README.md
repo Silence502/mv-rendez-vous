@@ -17,6 +17,9 @@ vocation d'être distribué officiellement dans le store.
 * L'administrateur à la possibilité de confirmer les demandes.
 * A la confirmation des demandes par l'administrateur, un email est automatiquement envoyé au demandeur.
 * L'administrateur peut supprimer les demandes en cours ou confirmé. Une deuxième validation est demandé si la demande n'a pas été confirmé au préalable.
+* L'administrateur peut choisir si oui ou non il recevra un email automatique lors d'une demande.
+* L'administrateur peut choisir si oui ou non il enverra un email automatique lors d'une validation de demande.
+* L'administrateur peut personnaliser son message d'envoi automatique.
 
 ## Environnement de développement
 

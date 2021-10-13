@@ -4,7 +4,7 @@ if ( ! class_exists( 'RdvSettingsClass' ) ):
 	class RdvSettingsClass {
 
 		/**
-		 *
+		 * Used for creating the submenu admin.
 		 */
 		public static function rdv_submenu_page() {
 			add_submenu_page(
@@ -19,7 +19,7 @@ if ( ! class_exists( 'RdvSettingsClass' ) ):
 		}
 
 		/**
-		 *
+		 * Used as controller for manage setting page.
 		 */
 		public static function rdv_settings() {
 			require_once 'rdv_settings_manager.php';

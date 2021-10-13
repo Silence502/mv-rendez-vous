@@ -21,11 +21,17 @@ add_action( 'admin_menu', array( 'RdvSettingsClass', 'rdv_submenu_page' ) );
 add_action( 'admin_enqueue_scripts', 'load_ressources' );
 add_shortcode( 'rdv_form_shortcode', array( 'RdvShortCode', 'rdv_shortcode' ) );
 
+/**
+ * Used for run certain processes at the activation.
+ */
 function activate_mv_rendezvous() {
 	$activation = new RdvRegisterHooksClass();
 	$activation->register_activation();
 }
 
+/**
+ * Used for shutdown certain processes at deactivation.
+ */
 function deactivate_mv_rendezvous() {
 	$deactivation = new RdvRegisterHooksClass();
 	$deactivation->register_deactivation();
@@ -44,7 +50,4 @@ function load_ressources() {
 
 	wp_register_style( 'admin_form_style.css', PLUGIN_URL . 'admin/css/admin_form_style.css' );
 	wp_enqueue_style( 'admin_form_style.css' );
-
-	wp_register_script( 'rdv_options_class_js.js', PLUGIN_URL . 'admin/js/rdv_options_class_js.js' );
-	wp_enqueue_script( 'rdv_options_class_js.js' );
 }

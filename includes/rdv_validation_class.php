@@ -11,7 +11,7 @@ class RdvValidationClass {
 	 * @param $phone
 	 * @param $date
 	 * @param $schedule
-	 * Used for validate the fields.
+	 * Used for validating the fields.
 	 */
 	public static function validation_rdv( $firstname, $lastname, $email, $message, $phone, $date, $schedule ) {
 		global $validation_errors;
