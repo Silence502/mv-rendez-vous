@@ -12,7 +12,6 @@
 
 require_once 'rdv_management_class.php';
 require_once 'rdv_register_hooks_class.php';
-require_once 'includes/rdv_validation_class.php';
 require_once 'rdv_shortcode_class.php';
 require_once 'rdv_settings_class.php';
 
@@ -22,7 +21,7 @@ add_action( 'admin_enqueue_scripts', 'load_ressources' );
 add_shortcode( 'rdv_form_shortcode', array( 'RdvShortCode', 'rdv_shortcode' ) );
 
 /**
- * Used for run certain processes at the activation.
+ * Used for run certain processes at activation.
  */
 function activate_mv_rendezvous() {
 	$activation = new RdvRegisterHooksClass();
