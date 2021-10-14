@@ -53,7 +53,6 @@ if ( ! class_exists( 'RdvManagementClass' ) ):
 				rendez-vous validé(s) et <span class="unvalidated-style"><strong>' . $selectCountConfirmed . '</strong></span> non validé(s)</p><hr>';
 			}
 
-			echo '<div class="rdv-wrapper-style">';
 			foreach ( RdvQueriesClass::rdv_select_function() as $row ) {
 				$sentDateObject = date_create( $row->$rdvSentDate );
 				$dateObject     = date_create( $row->$rdvDate );
@@ -137,7 +136,6 @@ if ( ! class_exists( 'RdvManagementClass' ) ):
 
 				echo '</div>';
 			}
-			echo '<div>';
 			include_once 'includes/rdv_footer_form.php';
 		}
 
