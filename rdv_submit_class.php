@@ -1,5 +1,5 @@
 <?php
-require_once 'rdv_settings_manager.php';
+require_once 'includes/managers/rdv_settings_manager.php';
 
 if ( ! class_exists( 'RdvSubmitClass' ) ):
 	class RdvSubmitClass {
@@ -8,6 +8,7 @@ if ( ! class_exists( 'RdvSubmitClass' ) ):
 		 * Used for call the insert function and the form creation.
 		 * Sanitize the fields for improve security sql injections.
 		 * Add the content of the fields in the insert function.
+		 * @throws Exception
 		 */
 		public function rdv_submit_function() {
 			$dateObject = date_create( $_POST['date'] );
@@ -22,14 +23,6 @@ if ( ! class_exists( 'RdvSubmitClass' ) ):
 			$schedule  = $_POST['schedule'];
 			$adminMail = RdvMessageManager::select()->$emailCol;
 
-
-			$to      = $adminMail;
-			$subject = 'Demande de rendez-vous';
-			$body    = '<h1>Rendez-vous</h1>';
-			$body    .= '<p>' . $firstname . ' ' . $lastname . ' souhaite un rendez-vous le ' . date_format( $dateObject, 'd/m/y' ) . ' entre ' . $schedule . '.</p>';
-			$body    .= '<hr>';
-			$body    .= '<p>' . $message . '</p>';
-			$header  = 'Content-Type: text/html' . "\r\n" . 'From:' . $email;
 
 			if ( isset( $_POST['submit'] ) ) {
 				RdvManagerClass::insert(
@@ -46,16 +39,28 @@ if ( ! class_exists( 'RdvSubmitClass' ) ):
 				$rdvReceiving = 'rdv_receiving';
 
 				if ( RdvSettingsManager::select()->$rdvReceiving ) {
-					mail(
-						$to,
-						$subject,
-						$body,
-						$header
-					);
+					self::email_to_send( $adminMail, $firstname, $lastname, $dateObject, $schedule, $message, $email );
 				}
 			}
 
 			include_once 'includes/rdv_generate_form.php';
+		}
+
+		public static function email_to_send( $adminMail, $firstname, $lastname, $dateObject, $schedule, $message, $email ) {
+			$to      = $adminMail;
+			$subject = 'Demande de rendez-vous';
+			$body    = '<h1>Rendez-vous</h1>';
+			$body    .= '<p>' . $firstname . ' ' . $lastname . ' souhaite un rendez-vous le ' . date_format( $dateObject, 'd/m/y' ) . ' entre ' . $schedule . '.</p>';
+			$body    .= '<hr>';
+			$body    .= '<p>' . $message . '</p>';
+			$header  = 'Content-Type: text/html' . "\r\n" . 'From:' . $email;
+
+			mail(
+				$to,
+				$subject,
+				$body,
+				$header
+			);
 		}
 	}
 endif;

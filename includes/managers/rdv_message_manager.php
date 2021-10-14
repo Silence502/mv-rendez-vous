@@ -1,10 +1,13 @@
 <?php
+require_once plugin_dir_path( __DIR__ ) . 'dal/rdv_dao_factory.php';
 
 if ( ! class_exists( 'RdvMessageManager' ) ):
 	class RdvMessageManager {
+
 		/**
 		 * @return array|object|void|null
 		 * Used for the 'select' query through the DAO factory.
+		 * @throws Exception
 		 */
 		public static function select() {
 			$rdvMessageDAO = RdvDAOFactory::getRdvQueriesMessageClass();
@@ -19,6 +22,8 @@ if ( ! class_exists( 'RdvMessageManager' ) ):
 		 * @param $title
 		 * @param $body
 		 * Used for get 'update' query through the DAO factory.
+		 *
+		 * @throws Exception
 		 */
 		public static function update( $id, $email, $subject, $title, $body ) {
 			$rdvMessageDAO = RdvDAOFactory::getRdvQueriesMessageClass();

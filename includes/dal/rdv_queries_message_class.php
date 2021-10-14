@@ -41,14 +41,19 @@ if ( ! class_exists( 'RdvQueriesMessageClass' ) ):
 		/**
 		 * @return array|object|void|null
 		 * Used for return all data in the row by id = 1.
+		 * @throws Exception
 		 */
 		public static function rdv_select_message() {
 			global $wpdb, $rdv_table_msg;
 			$rdv_table_msg = $wpdb->prefix . 'rendez_vous_msg';
 
-			$rdv_sql = "SELECT * FROM $rdv_table_msg WHERE rdv_msg_id = 1";
+			try {
+				$rdv_sql = "SELECT * FROM $rdv_table_msg WHERE rdv_msg_id = 1";
 
-			return $wpdb->get_row( $rdv_sql );
+				return $wpdb->get_row( $rdv_sql );
+			} catch ( Exception $e ) {
+				throw new Exception('Erreur de la requête SELECT dans la base de données');
+			}
 		}
 
 		/**
@@ -64,18 +69,22 @@ if ( ! class_exists( 'RdvQueriesMessageClass' ) ):
 		public static function rdv_update_message_function( $id, $email, $subject, $title, $body ) {
 			global $wpdb, $rdv_table_msg;
 
-			$wpdb->update(
-				$rdv_table_msg,
-				array(
-					'rdv_msg_email'   => $email,
-					'rdv_msg_subject' => $subject,
-					'rdv_msg_title'   => $title,
-					'rdv_msg_body'    => $body
-				),
-				array( 'rdv_msg_id' => $id ),
-				array( '%s', '%s', '%s' ),
-				array( '%d' )
-			);
+			try {
+				$wpdb->update(
+					$rdv_table_msg,
+					array(
+						'rdv_msg_email'   => $email,
+						'rdv_msg_subject' => $subject,
+						'rdv_msg_title'   => $title,
+						'rdv_msg_body'    => $body
+					),
+					array( 'rdv_msg_id' => $id ),
+					array( '%s', '%s', '%s' ),
+					array( '%d' )
+				);
+			} catch (Exception $e) {
+				throw new Exception('Erreur de la requête UPDATE dans la base de données');
+			}
 		}
 
 		/**

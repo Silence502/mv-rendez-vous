@@ -35,12 +35,17 @@ if ( ! class_exists( 'RdvQueriesClass' ) ):
 
 		/**
 		 * Used for select all data.
+		 * @throws Exception
 		 */
 		public static function rdv_select_function() {
 			global $wpdb, $rdv_table;
 			$rdv_table = $wpdb->prefix . 'rendez_vous';
 
-			$rdv_sql = "SELECT * FROM $rdv_table";
+			try {
+				$rdv_sql = "SELECT * FROM $rdv_table";
+			} catch ( Exception $e ) {
+				throw new Exception( 'Erreur de la requête SELECT dans la base de données' );
+			}
 
 			return $wpdb->get_results( $rdv_sql );
 		}
@@ -48,12 +53,17 @@ if ( ! class_exists( 'RdvQueriesClass' ) ):
 		/**
 		 * @return array|object|null
 		 * Used for select confirmed rendez-vous.
+		 * @throws Exception
 		 */
 		public static function rdv_select_confirmed_function() {
 			global $wpdb, $rdv_table;
 			$rdv_table = $wpdb->prefix . 'rendez_vous';
 
-			$rdv_sql = "SELECT * FROM $rdv_table WHERE rdv_isConfirmed=0";
+			try {
+				$rdv_sql = "SELECT * FROM $rdv_table WHERE rdv_isConfirmed=0";
+			} catch ( Exception $e ) {
+				throw new Exception( 'Erreur de la requête SELECT dans la base de données' );
+			}
 
 			return $wpdb->get_results( $rdv_sql );
 		}
@@ -66,7 +76,11 @@ if ( ! class_exists( 'RdvQueriesClass' ) ):
 			global $wpdb, $rdv_table;
 			$rdv_table = $wpdb->prefix . 'rendez_vous';
 
-			$rdv_sql = "SELECT * FROM $rdv_table WHERE rdv_isConfirmed=1";
+			try {
+				$rdv_sql = "SELECT * FROM $rdv_table WHERE rdv_isConfirmed=1";
+			} catch ( Exception $e ) {
+				throw new Exception( 'Erreur de la requête SELECT dans la base de données' );
+			}
 
 			return $wpdb->get_results( $rdv_sql );
 		}
@@ -74,33 +88,45 @@ if ( ! class_exists( 'RdvQueriesClass' ) ):
 		/**
 		 * @param $id
 		 * Used for delete data by id.
+		 *
+		 * @throws Exception
 		 */
 		public static function rdv_delete_function( $id ) {
 			global $wpdb, $rdv_table;
 			$rdv_table = $wpdb->prefix . 'rendez_vous';
 
-			$wpdb->delete( $rdv_table, array( 'rdv_id' => $id ) );
+			try {
+				$wpdb->delete( $rdv_table, array( 'rdv_id' => $id ) );
+				$rdv_sql_alter_table = "ALTER TABLE $rdv_table AUTO_INCREMENT = 1";
+				$wpdb->query( $rdv_sql_alter_table );
+			} catch ( Exception $e ) {
+				throw new Exception( 'Erreur de la requête SELECT dans la base de données' );
+			}
 
-			$rdv_sql_alter_table = "ALTER TABLE $rdv_table AUTO_INCREMENT = 1";
-			$wpdb->query( $rdv_sql_alter_table );
 		}
 
 		/**
 		 * @param $id
 		 * @param $checked
 		 * Used for update query by id.
+		 *
+		 * @throws Exception
 		 */
 		public static function rdv_update_function( $id, $checked ) {
 			global $wpdb, $rdv_table;
 			$rdv_table = $wpdb->prefix . 'rendez_vous';
 
-			$wpdb->update(
-				$rdv_table,
-				array( 'rdv_isConfirmed' => $checked ),
-				array( 'rdv_id' => $id ),
-				array( '%d', '%d' ),
-				array( '%d' )
-			);
+			try {
+				$wpdb->update(
+					$rdv_table,
+					array( 'rdv_isConfirmed' => $checked ),
+					array( 'rdv_id' => $id ),
+					array( '%d', '%d' ),
+					array( '%d' )
+				);
+			} catch (Exception $e) {
+				throw new Exception('Erreur de la requête SELECT dans la base de données');
+			}
 		}
 
 		/**
@@ -112,6 +138,8 @@ if ( ! class_exists( 'RdvQueriesClass' ) ):
 		 * @param $schedule
 		 * @param $message
 		 * Used for insert the fields content in the table _rdv.
+		 *
+		 * @throws Exception
 		 */
 		public static function rdv_insert_function( $firstname, $lastname, $email, $phone, $date, $schedule, $message ) {
 			global $wpdb, $rdv_table;
@@ -147,11 +175,15 @@ if ( ! class_exists( 'RdvQueriesClass' ) ):
 			);
 
 			if ( $firstname || $lastname || $email || $phone || $date || $schedule || $message ) {
-				$wpdb->insert(
-					$rdv_table,
-					$table_array,
-					$table_format
-				);
+				try {
+					$wpdb->insert(
+						$rdv_table,
+						$table_array,
+						$table_format
+					);
+				} catch (Exception $e) {
+					throw new Exception('Erreur de la requête d\'insertion dans la base de données');
+				}
 			}
 		}
 
@@ -162,7 +194,7 @@ if ( ! class_exists( 'RdvQueriesClass' ) ):
 			global $wpdb, $rdv_table;
 
 			$rdv_table = $wpdb->prefix . 'rendez_vous';
-			$rdv_drop = "DROP TABLE IF EXISTS $rdv_table";
+			$rdv_drop  = "DROP TABLE IF EXISTS $rdv_table";
 			$wpdb->query( $rdv_drop );
 		}
 	}

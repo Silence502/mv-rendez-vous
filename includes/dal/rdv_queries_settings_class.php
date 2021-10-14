@@ -40,14 +40,19 @@ if ( ! class_exists( 'RdvQueriesSettingsClass' ) ):
 		/**
 		 * @return array|object|void|null
 		 * Used for select settings by id = 1.
+		 * @throws Exception
 		 */
 		public static function rdv_select_settings() {
 			global $wpdb, $rdv_table_settings;
 			$rdv_table_settings = $wpdb->prefix . 'rendez_vous_settings';
 
-			$rdv_sql = "SELECT * FROM $rdv_table_settings WHERE rdv_settings_id = 1";
+			try {
+				$rdv_sql = "SELECT * FROM $rdv_table_settings WHERE rdv_settings_id = 1";
 
-			return $wpdb->get_row( $rdv_sql );
+				return $wpdb->get_row( $rdv_sql );
+			} catch ( Exception $e ) {
+				throw new Exception( 'Erreur de la requête SELECT dans la base de donnée.' );
+			}
 		}
 
 		/**
@@ -55,20 +60,26 @@ if ( ! class_exists( 'RdvQueriesSettingsClass' ) ):
 		 * @param $sending
 		 * @param $receiving
 		 * Used for update settings.
+		 *
+		 * @throws Exception
 		 */
 		public static function rdv_update_settings_function( $id, $sending, $receiving ) {
 			global $wpdb, $rdv_table_settings;
 
-			$wpdb->update(
-				$rdv_table_settings,
-				array(
-					'rdv_sending'   => $sending,
-					'rdv_receiving' => $receiving
-				),
-				array( 'rdv_settings_id' => $id ),
-				array( '%d', '%d' ),
-				array( '%d' )
-			);
+			try {
+				$wpdb->update(
+					$rdv_table_settings,
+					array(
+						'rdv_sending'   => $sending,
+						'rdv_receiving' => $receiving
+					),
+					array( 'rdv_settings_id' => $id ),
+					array( '%d', '%d' ),
+					array( '%d' )
+				);
+			} catch ( Exception $e ) {
+				throw new Exception( 'Erreur de la requête UPDATE dans la base de données.' );
+			}
 		}
 
 		/**

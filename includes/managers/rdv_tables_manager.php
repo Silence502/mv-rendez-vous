@@ -1,5 +1,5 @@
 <?php
-require_once 'includes/dal/rdv_dao_factory.php';
+require_once plugin_dir_path( __DIR__ ) . 'dal/rdv_dao_factory.php';
 
 if ( ! class_exists( 'RdvTablesManager' ) ):
 	class RdvTablesManager {

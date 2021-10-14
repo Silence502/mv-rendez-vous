@@ -1,4 +1,7 @@
 <?php
+require_once plugin_dir_path( __DIR__ ) . 'dal/rdv_queries_class.php';
+require_once plugin_dir_path( __DIR__ ) . 'dal/rdv_queries_settings_class.php';
+require_once plugin_dir_path( __DIR__ ) . 'dal/rdv_queries_message_class.php';
 
 if ( ! class_exists( 'RdvDAOFactory' ) ):
 	abstract class RdvDAOFactory {
