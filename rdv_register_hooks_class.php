@@ -1,5 +1,5 @@
 <?php
-require_once 'rdv_tables_manager.php';
+require_once 'includes/managers/rdv_tables_manager.php';
 
 if ( ! class_exists( 'RdvRegisterHooksClass' ) ):
 	class RdvRegisterHooksClass {

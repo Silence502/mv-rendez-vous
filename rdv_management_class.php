@@ -1,6 +1,6 @@
 <?php
-require_once 'rdv_manager_class.php';
-require_once 'includes/rdv_message_manager.php';
+require_once 'includes/managers/rdv_manager_class.php';
+require_once 'includes/managers/rdv_message_manager.php';
 
 if ( ! class_exists( 'RdvManagementClass' ) ):
 	class RdvManagementClass {
@@ -25,6 +25,7 @@ if ( ! class_exists( 'RdvManagementClass' ) ):
 		 * Implement the form with a foreach condition for display the selection query.
 		 * Condition for updating the display cards by the boolean confirmation value.
 		 * Two other conditions for validating deletion and update queries.
+		 * @throws Exception
 		 */
 		public static function rdv_management() {
 			$rdvId          = 'rdv_id';
@@ -38,11 +39,8 @@ if ( ! class_exists( 'RdvManagementClass' ) ):
 			$rdvSchedule    = 'rdv_schedule';
 			$rdvMessage     = 'rdv_message';
 
-//			$selectCount          = count( RdvQueriesClass::rdv_select_function() );
 			$selectCount = count( RdvManagerClass::selectAll() );
-//			$selectCountConfirmed = count( RdvQueriesClass::rdv_select_confirmed_function() );
 			$selectCountConfirmed = count( RdvManagerClass::selectByConfirmed() );
-//			$selectCountToConfirm = count( RdvQueriesClass::rdv_select_to_confirm_function() );
 			$selectCountToConfirm = count( RdvManagerClass::selectByToConfirm() );
 
 			include_once 'includes/rdv_header_form.php';
@@ -147,6 +145,8 @@ if ( ! class_exists( 'RdvManagementClass' ) ):
 		 * @param $email
 		 * @param $phone
 		 * Used for send the email confirmation.
+		 *
+		 * @throws Exception
 		 */
 		public static function rdv_confirmation( $dateObject, $schedule, $firstname, $lastname, $email, $phone ) {
 			$selectMessage = RdvMessageManager::select();

@@ -1,4 +1,6 @@
 <?php
+require_once plugin_dir_path( __DIR__ . '/mv-rendez-vous' ) . 'includes/managers/rdv_settings_manager.php';
+require_once plugin_dir_path( __DIR__ . '/mv-rendez-vous' ) . 'includes/managers/rdv_message_manager.php';
 
 if ( ! class_exists( 'RdvSettingsClass' ) ):
 	class RdvSettingsClass {
@@ -20,10 +22,9 @@ if ( ! class_exists( 'RdvSettingsClass' ) ):
 
 		/**
 		 * Used as controller for manage setting page.
+		 * @throws Exception
 		 */
 		public static function rdv_settings() {
-			require_once 'rdv_settings_manager.php';
-			require_once 'includes/rdv_message_manager.php';
 			$selectSettings  = RdvSettingsManager::select();
 			$selectMessage   = RdvMessageManager::select();
 			$selectAdmins    = RdvMessageManager::selectAdmins();
@@ -157,13 +158,13 @@ if ( ! class_exists( 'RdvSettingsClass' ) ):
 			include_once 'includes/rdv_footer_form.php';
 
 			if ( isset( $_POST['submit'] ) ) {
-				if ( $_POST['yes - no - 01'] === 'yes' && $_POST['yes - no - 02'] === 'yes' ) {
+				if ( $_POST['yes-no-01'] === 'yes' && $_POST['yes-no-02'] === 'yes' ) {
 					RdvSettingsManager::update( $selectSettings->$rdvSettingsId, true, true );
-				} elseif ( $_POST['yes - no - 01'] === 'yes' && $_POST['yes - no - 02'] === 'no' ) {
+				} elseif ( $_POST['yes-no-01'] === 'yes' && $_POST['yes-no-02'] === 'no' ) {
 					RdvSettingsManager::update( $selectSettings->$rdvSettingsId, false, true );
-				} elseif ( $_POST['yes - no - 01'] === 'no' && $_POST['yes - no - 02'] === 'yes' ) {
+				} elseif ( $_POST['yes-no-01'] === 'no' && $_POST['yes-no-02'] === 'yes' ) {
 					RdvSettingsManager::update( $selectSettings->$rdvSettingsId, true, false );
-				} elseif ( $_POST['yes - no - 01'] === 'no' && $_POST['yes - no - 02'] === 'no' ) {
+				} elseif ( $_POST['yes-no-01'] === 'no' && $_POST['yes-no-02'] === 'no' ) {
 					RdvSettingsManager::update( $selectSettings->$rdvSettingsId, false, false );
 				}
 
