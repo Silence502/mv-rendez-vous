@@ -2,17 +2,33 @@
 
 if ( ! class_exists( 'RdvMessageManager' ) ):
 	class RdvMessageManager {
+		/**
+		 * @return array|object|void|null
+		 * Used for the 'select' query through the DAO factory.
+		 */
 		public static function select() {
 			$rdvMessageDAO = RdvDAOFactory::getRdvQueriesMessageClass();
 
 			return $rdvMessageDAO->rdv_select_message();
 		}
 
+		/**
+		 * @param $id
+		 * @param $email
+		 * @param $subject
+		 * @param $title
+		 * @param $body
+		 * Used for get 'update' query through the DAO factory.
+		 */
 		public static function update( $id, $email, $subject, $title, $body ) {
 			$rdvMessageDAO = RdvDAOFactory::getRdvQueriesMessageClass();
-			$rdvMessageDAO->rdv_update_settings_function( $id, $email, $subject, $title, $body );
+			$rdvMessageDAO->rdv_update_message_function( $id, $email, $subject, $title, $body );
 		}
 
+		/**
+		 * @return array|object|null
+		 * Used for get 'select' query for all administrators through DAO factory.
+		 */
 		public static function selectAdmins() {
 			$rdvMessageDAO = RdvDAOFactory::getRdvQueriesMessageClass();
 

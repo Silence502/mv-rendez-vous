@@ -12,13 +12,16 @@ if ( ! class_exists( 'RdvTablesManager' ) ):
 		}
 
 		/**
-		 * Used for get create query : settings and message tables.
+		 * Used for get create query : settings table.
 		 */
 		public static function createTableSettings() {
 			$rdvSettingsDAO = RdvDAOFactory::getRdvQueriesSettingsClass();
 			$rdvSettingsDAO->rdv_create_table_settings_function();
 		}
 
+		/**
+		 * Used for get create query : message table.
+		 */
 		public static function createTableMessage() {
 			$rdvMessageDAO = RdvDAOFactory::getRdvQueriesMessageClass();
 			$rdvMessageDAO->rdv_create_table_message_function();
@@ -33,7 +36,7 @@ if ( ! class_exists( 'RdvTablesManager' ) ):
 		}
 
 		/**
-		 * Used for get drop query : settings tables.
+		 * Used for get drop query : settings table.
 		 */
 		public static function dropTableSettings() {
 			$rdvSettingsDAO = RdvDAOFactory::getRdvQueriesSettingsClass();
@@ -41,7 +44,7 @@ if ( ! class_exists( 'RdvTablesManager' ) ):
 		}
 
 		/**
-		 * Used for get drop query : settings tables.
+		 * Used for get drop query : settings table.
 		 */
 		public static function dropTableMessages() {
 			$rdvMessageDAO = RdvDAOFactory::getRdvQueriesMessageClass();
