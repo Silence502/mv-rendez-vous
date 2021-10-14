@@ -44,13 +44,16 @@ if ( ! class_exists( 'RdvManagementClass' ) ):
 			$selectCountToConfirm = count( RdvManagerClass::selectByToConfirm() );
 
 			include_once 'includes/rdv_header_form.php';
+
 			if ( $selectCount < 1 ) {
 				echo '<h3>Vous n\'avez pas demande de rendez-vous pour le moment.</h3>';
 			} else {
 				echo '<h3>Vous avez ' . $selectCount . ' demande de rendez-vous</h3>';
 				echo '<p class="count-to-confirm-style">Dont <span class="validated-style"><strong>' . $selectCountToConfirm . '</strong></span> 
-				rendez-vous validé(s) et <span class="unvalidated-style"><strong>' . $selectCountConfirmed . '</strong></span> non validés</p><hr>';
+				rendez-vous validé(s) et <span class="unvalidated-style"><strong>' . $selectCountConfirmed . '</strong></span> non validé(s)</p><hr>';
 			}
+
+			echo '<div class="rdv-wrapper-style">';
 			foreach ( RdvQueriesClass::rdv_select_function() as $row ) {
 				$sentDateObject = date_create( $row->$rdvSentDate );
 				$dateObject     = date_create( $row->$rdvDate );
@@ -134,6 +137,7 @@ if ( ! class_exists( 'RdvManagementClass' ) ):
 
 				echo '</div>';
 			}
+			echo '<div>';
 			include_once 'includes/rdv_footer_form.php';
 		}
 
