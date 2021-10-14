@@ -5,7 +5,7 @@
 ## Introduction
 <hr>
 
-This plugin for WordPress is created as part of the validation of the title web developer at ENI IT school. MV Rendez-vous is a telephone dating plugin and is not intended for the official store.
+This plugin for WordPress has developed as part of the validation of the title web developer at 'ENI école informatique'. MV Rendez-vous is a phone appointment plugin and is not intended for the official store.
 
 #### Main functionalities :
 
