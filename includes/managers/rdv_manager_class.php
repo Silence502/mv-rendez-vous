@@ -43,10 +43,11 @@ if ( ! class_exists( 'RdvManagerClass' ) ):
             }
 
 			if ( is_wp_error( $validation_errors ) ) {
+                echo '<div><ul>';
 				foreach ( $validation_errors->get_error_messages() as $error ) {
-					echo '<div style="color: red"><strong>Il y a un problème</strong>:<br>';
-					echo $error . '<br></div>';
+					echo '<li style="color: red">'.$error . '</li>';
 				}
+				echo '</ul></div>';
 			}
 
 			if ( count( $validation_errors->get_error_messages() ) < 1 ) {
