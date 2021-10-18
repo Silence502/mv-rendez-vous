@@ -1,5 +1,6 @@
 <?php
 require_once plugin_dir_path( __DIR__ ) . 'dal/rdv_dao_factory.php';
+require_once 'rdv_settings_manager.php';
 
 if ( ! class_exists( 'RdvManagerClass' ) ):
 	class RdvManagerClass {
@@ -17,6 +18,10 @@ if ( ! class_exists( 'RdvManagerClass' ) ):
 		 * @throws Exception
 		 */
 		public static function insert( $firstname, $lastname, $email, $phone, $date, $schedule, $message ) {
+		    $emailCol = 'rdv_msg_email';
+		    $adminMail = RdvMessageManager::select()->$emailCol;
+            $dateObject = date_create( $date );
+            $rdvReceiving = 'rdv_receiving';
 			$rdvDAO = RdvDAOFactory::getRdvQueriesClass();
 			global $validation_errors;
 			$validation_errors = new WP_Error();
@@ -47,6 +52,9 @@ if ( ! class_exists( 'RdvManagerClass' ) ):
 			if ( count( $validation_errors->get_error_messages() ) < 1 ) {
 				echo '<div><strong>Message envoyé ! Voulez-vous retourner à l\'<a href="' . get_site_url() . '">accueil</a> ?</strong></div>';
 				$rdvDAO->rdv_insert_function( $firstname, $lastname, $email, $phone, $date, $schedule, $message );
+				if ( RdvSettingsManager::select()->$rdvReceiving ) {
+                    RdvSubmitClass::email_to_send( $adminMail, $firstname, $lastname, $dateObject, $schedule, $message, $email );
+                }
 			}
 		}
 
