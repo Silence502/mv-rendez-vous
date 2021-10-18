@@ -1,5 +1,6 @@
 <?php
 require_once plugin_dir_path( __DIR__ ) . 'dal/rdv_dao_factory.php';
+require_once 'rdv_settings_manager.php';
 
 if ( ! class_exists( 'RdvManagerClass' ) ):
 	class RdvManagerClass {
@@ -17,6 +18,10 @@ if ( ! class_exists( 'RdvManagerClass' ) ):
 		 * @throws Exception
 		 */
 		public static function insert( $firstname, $lastname, $email, $phone, $date, $schedule, $message ) {
+		    $emailCol = 'rdv_msg_email';
+		    $adminMail = RdvMessageManager::select()->$emailCol;
+            $dateObject = date_create( $date );
+            $rdvReceiving = 'rdv_receiving';
 			$rdvDAO = RdvDAOFactory::getRdvQueriesClass();
 			global $validation_errors;
 			$validation_errors = new WP_Error();
@@ -33,9 +38,13 @@ if ( ! class_exists( 'RdvManagerClass' ) ):
 				$validation_errors->add('date_valid', 'Date invalide. Veuillez sélectionner une date supérieure à celle d\'aujourd\'hui');
 			}
 
+			if ( strlen($message) > 255 ) {
+			    $validation_errors->add('message_valid', 'Vous avez dépassé le nombre de caractères autorisé');
+            }
+
 			if ( is_wp_error( $validation_errors ) ) {
 				foreach ( $validation_errors->get_error_messages() as $error ) {
-					echo '<div style="color: red"><strong>Erreur</strong>:<br>';
+					echo '<div style="color: red"><strong>Il y a un problème</strong>:<br>';
 					echo $error . '<br></div>';
 				}
 			}
@@ -43,6 +52,9 @@ if ( ! class_exists( 'RdvManagerClass' ) ):
 			if ( count( $validation_errors->get_error_messages() ) < 1 ) {
 				echo '<div><strong>Message envoyé ! Voulez-vous retourner à l\'<a href="' . get_site_url() . '">accueil</a> ?</strong></div>';
 				$rdvDAO->rdv_insert_function( $firstname, $lastname, $email, $phone, $date, $schedule, $message );
+				if ( RdvSettingsManager::select()->$rdvReceiving ) {
+                    RdvSubmitClass::email_to_send( $adminMail, $firstname, $lastname, $dateObject, $schedule, $message, $email );
+                }
 			}
 		}
 

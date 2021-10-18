@@ -76,27 +76,19 @@ if ( ! class_exists( 'RdvManagementClass' ) ):
 					$confirmed  = 'disabled';
 				}
 
-				echo '
-				<div style="' . $cardColor . '" class="card card-style">
-					<h3> ' . $row->$rdvFirstname . ' ' . $row->$rdvLastname . '</h3>
-					<em>Demande reçue le : ' . date_format( $sentDateObject, "d/m/y" ) . '</em>
-					<ul>
-						<li><strong>Email :</strong> ' . $row->$rdvEmail . '</li>
-						<li><strong>Téléphone :</strong> ' . $row->$rdvPhone . '</li>
-						<li><strong>Horaire et date souhaités :</strong> le ' . date_format( $dateObject, "d/m/y" ) . ' entre ' . $row->$rdvSchedule . '</li>
-					</ul>
-					<div class="card card-style">
-						<p>' . $row->$rdvMessage . '</p>
-					</div>
-					<hr>
-					<div class="options-card-style">
-						<div>
-							<input type="checkbox" id="' . $row->$rdvId . '-to-delete" name="' . $row->$rdvId . '-to-delete">
-							<label for="' . $row->$rdvId . '-to-delete" class="to-delete"><strong>Supprimer</strong></label>
-						</div>
-						<input ' . $confirmed . ' type="submit" name="' . $row->$rdvId . '-to-confirm" id="' . $row->$rdvId . '-to-confirm" class="button-primary" value="' . $confirm . '">
-					</div>
-				';
+				self::rdv_card(
+				    $cardColor,
+                    $row->$rdvFirstname,
+                    $row->$rdvLastname,
+                    $sentDateObject,
+                    $row->$rdvEmail,
+                    $row->$rdvPhone,
+                    $dateObject,
+                    $row->$rdvSchedule,
+                    $row->$rdvMessage,
+                    $row->$rdvId,
+                    $confirmed,
+                    $confirm);
 
 				if ( isset( $_POST[ $row->$rdvId . '-to-confirm' ] ) ) {
 					self::rdv_confirmation(
@@ -180,5 +172,29 @@ if ( ! class_exists( 'RdvManagementClass' ) ):
 				);
 			}
 		}
+
+		public static function rdv_card( $cardColor, $rdvFirstname, $rdvLastname, $sentDateObject, $rdvEmail, $rdvPhone, $dateObject, $rdvSchedule, $rdvMessage, $rdvId, $confirmed, $confirm ) {
+            echo '
+				<div style="' . $cardColor . '" class="card card-style">
+					<h3> ' . $rdvFirstname . ' ' . $rdvLastname . '</h3>
+					<em>Demande reçue le : ' . date_format( $sentDateObject, "d/m/y" ) . '</em>
+					<ul>
+						<li><strong>Email :</strong> ' . $rdvEmail . '</li>
+						<li><strong>Téléphone :</strong> ' . $rdvPhone . '</li>
+						<li><strong>Horaire et date souhaités :</strong> le ' . date_format( $dateObject, "d/m/y" ) . ' entre ' . $rdvSchedule . '</li>
+					</ul>
+					<div class="card card-style">
+						<p>' . $rdvMessage . '</p>
+					</div>
+					<hr>
+					<div class="options-card-style">
+						<div>
+							<input type="checkbox" id="' . $rdvId . '-to-delete" name="' . $rdvId . '-to-delete">
+							<label for="' . $rdvId . '-to-delete" class="to-delete"><strong>Supprimer</strong></label>
+						</div>
+						<input ' . $confirmed . ' type="submit" name="' . $rdvId . '-to-confirm" id="' . $rdvId . '-to-confirm" class="button-primary" value="' . $confirm . '">
+					</div>
+				';
+        }
 	}
 endif;

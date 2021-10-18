@@ -34,15 +34,7 @@ if ( ! class_exists( 'RdvSubmitClass' ) ):
 					$schedule,
 					$message,
 				);
-
-
-				$rdvReceiving = 'rdv_receiving';
-
-				if ( RdvSettingsManager::select()->$rdvReceiving ) {
-					self::email_to_send( $adminMail, $firstname, $lastname, $dateObject, $schedule, $message, $email );
-				}
 			}
-
 			include_once 'includes/rdv_generate_form.php';
 		}
 
