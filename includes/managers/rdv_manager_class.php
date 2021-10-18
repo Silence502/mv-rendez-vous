@@ -33,9 +33,13 @@ if ( ! class_exists( 'RdvManagerClass' ) ):
 				$validation_errors->add('date_valid', 'Date invalide. Veuillez sélectionner une date supérieure à celle d\'aujourd\'hui');
 			}
 
+			if ( strlen($message) > 255 ) {
+			    $validation_errors->add('message_valid', 'Vous avez dépassé le nombre de caractères autorisé');
+            }
+
 			if ( is_wp_error( $validation_errors ) ) {
 				foreach ( $validation_errors->get_error_messages() as $error ) {
-					echo '<div style="color: red"><strong>Erreur</strong>:<br>';
+					echo '<div style="color: red"><strong>Il y a un problème</strong>:<br>';
 					echo $error . '<br></div>';
 				}
 			}

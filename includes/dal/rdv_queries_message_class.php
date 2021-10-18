@@ -125,8 +125,8 @@ if ( ! class_exists( 'RdvQueriesMessageClass' ) ):
 			INNER JOIN (SELECT user_id, meta_value FROM {$wpdb->usermeta} 
 						WHERE meta_key = 'nickname') as nickname ON {$wpdb->users}.ID = nickname.user_id
 			INNER JOIN (SELECT user_id, meta_value FROM {$wpdb->usermeta} 
-						WHERE meta_key = '$capabilities') as wp_capabilities ON {$wpdb->users}.ID = $capabilities.user_id
-			WHERE wp_capabilities.meta_value = '$administratorStatus'
+						WHERE meta_key = '$capabilities') as $capabilities ON {$wpdb->users}.ID = $capabilities.user_id
+			WHERE $capabilities.meta_value = '$administratorStatus'
 			";
 
 			return $wpdb->get_results( $sql );
