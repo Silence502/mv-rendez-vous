@@ -146,6 +146,7 @@ if ( ! class_exists( 'RdvManagementClass' ) ):
 			$selectMessage = RdvMessageManager::select();
 			$rdvSending    = 'rdv_sending';
 			$from          = 'rdv_msg_email';
+			$fromUsername  = 'rdv_msg_username';
 			$to            = $email;
 			$subjectCol    = 'rdv_msg_subject';
 			$titleCol      = 'rdv_msg_title';
@@ -161,7 +162,8 @@ if ( ! class_exists( 'RdvManagementClass' ) ):
 			$body    .= '<li>Numéro de contact : ' . $phone . '</li>';
 			$body    .= '<p>Cordialement,</p>';
 			$body    .= '<hr>';
-			$header  = 'Content-Type: text/html' . "\r\n" . 'From: ' . RdvMessageManager::select()->$from;
+			$header  = 'Content-Type: text/html' . "\r\n" . 'From:<' . $selectMessage->$from . '>';
+            $header = 'Content-Type: text/html' . "\r\n" . 'From:' . $firstname . ' ' . $lastname . '<' . $selectMessage->$from . '>' . "\r\n" . 'Reply-To:' . RdvMessageManager::select()->$from;
 
 			if ( RdvSettingsManager::select()->$rdvSending ) {
 				mail(

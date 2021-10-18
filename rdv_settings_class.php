@@ -34,6 +34,8 @@ if ( ! class_exists( 'RdvSettingsClass' ) ):
 			$sending_param   = 1;
 			$receiving_param = 1;
 			$rdvMsgId        = 'rdv_msg_id';
+			$rdvMsgFirstname = 'rdv_msg_firstname';
+            $rdvMsgLastname  = 'rdv_msg_lastname';
 			$rdvMsgEmail     = 'rdv_msg_email';
 			$rdvMsgSubject   = 'rdv_msg_subject';
 			$rdvMsgTitle     = 'rdv_msg_title';
@@ -168,10 +170,11 @@ if ( ! class_exists( 'RdvSettingsClass' ) ):
 					RdvSettingsManager::update( $selectSettings->$rdvSettingsId, false, false );
 				}
 
-				if ( isset( $_POST['subject'], $_POST['title'], $_POST['body'] ) ) {
-					RdvMessageManager::update( $selectMessage->$rdvMsgId, $_POST['admin-list'], $_POST['subject'], $_POST['title'], $_POST['body'] );
-				}
-				echo '<meta http-equiv = "REFRESH" content = "0">';
+                if ( isset( $_POST['subject'], $_POST['title'], $_POST['body'] ) ) {
+                    RdvMessageManager::update( $selectMessage->$rdvMsgId, $row->$userNickname, $_POST['admin-list'], $_POST['subject'], $_POST['title'], $_POST['body'] );
+                }
+
+                echo '<meta http-equiv = "REFRESH" content = "0">';
 			}
 		}
 	}
