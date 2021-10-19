@@ -5,8 +5,8 @@ if ( ! class_exists( 'RdvMessageManager' ) ):
 	class RdvMessageManager {
 
 		/**
-		 * @return array|object|void|null
-		 * Used for the 'select' query through the DAO factory.
+		 * @return array|object
+         * Used for the 'select' query through the DAO factory.
 		 * @throws Exception
 		 */
 		public static function select() {
@@ -17,9 +17,7 @@ if ( ! class_exists( 'RdvMessageManager' ) ):
 
         /**
          * @param $id
-         * @param $firstname
-         * @param $lastname
-         * @param $email
+         * @param $userId
          * @param $subject
          * @param $title
          * @param $body

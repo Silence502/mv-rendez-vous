@@ -145,8 +145,9 @@ if ( ! class_exists( 'RdvManagementClass' ) ):
 		public static function rdv_confirmation( $dateObject, $schedule, $firstname, $lastname, $email, $phone ) {
 			$selectMessage = RdvMessageManager::select();
 			$rdvSending    = 'rdv_sending';
-			$from          = 'rdv_msg_email';
-			$fromUsername  = 'rdv_msg_username';
+			$from          = 'user_email';
+			$fromFirstname = 'first_name';
+			$fromLastname  = 'last_name';
 			$to            = $email;
 			$subjectCol    = 'rdv_msg_subject';
 			$titleCol      = 'rdv_msg_title';
@@ -162,8 +163,7 @@ if ( ! class_exists( 'RdvManagementClass' ) ):
 			$body    .= '<li>Numéro de contact : ' . $phone . '</li>';
 			$body    .= '<p>Cordialement,</p>';
 			$body    .= '<hr>';
-			$header  = 'Content-Type: text/html' . "\r\n" . 'From:<' . $selectMessage->$from . '>';
-            $header = 'Content-Type: text/html' . "\r\n" . 'From:' . $firstname . ' ' . $lastname . '<' . $selectMessage->$from . '>' . "\r\n" . 'Reply-To:' . RdvMessageManager::select()->$from;
+            $header = 'Content-Type: text/html' . "\r\n" . 'From:' . $selectMessage->$fromFirstname . ' ' . $selectMessage->$fromFirstname . '<' . $selectMessage->$from . '>' . "\r\n" . 'Reply-To:' . $selectMessage->$from;
 
 			if ( RdvSettingsManager::select()->$rdvSending ) {
 				mail(

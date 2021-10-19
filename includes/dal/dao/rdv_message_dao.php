@@ -53,9 +53,7 @@ if ( ! interface_exists( 'RdvMessageDAO' ) ):
 
         /**
          * @param $id
-         * @param $firstname
-         * @param $lastname
-         * @param $email
+         * @param $userId
          * @param $subject
          * @param $title
          * @param $body

@@ -26,7 +26,7 @@ if ( ! class_exists( 'RdvQueriesMessageClass' ) ):
 			dbDelta( $rdv_sql_msg );
 
 			self::rdv_insert_message();
-			self::rdv_alter_table();
+//			self::rdv_alter_table();
 		}
 
 		/**
@@ -40,20 +40,31 @@ if ( ! class_exists( 'RdvQueriesMessageClass' ) ):
 		}
 
 		/**
-		 * @return array|object|void|null
-		 * Used for return all data in the row by id = 1.
+         * @return array|object
+         * Used for return all data in the row by id = 1 with user email and meta data.
 		 * @throws Exception
 		 */
 		public static function rdv_select_message() {
 			global $wpdb, $rdv_table_msg;
 			$rdv_table_msg = $wpdb->prefix . 'rendez_vous_msg';
-            $users_table         = $wpdb->prefix . 'users';
+            $firstname     = 'first_name';
+            $lastname      = 'last_name';
+            $id            = 1;
 
 			try {
 				$rdv_sql = "
-				SELECT rdv_msg_id, rdv_msg_subject, rdv_msg_title, rdv_msg_body, $users_table.display_name
-				FROM $rdv_table_msg as msg_table
-                INNER JOIN $users_table
+				SELECT rdv_msg_id, rdv_msg_user_id, rdv_msg_subject, rdv_msg_title, rdv_msg_body, user_email,
+				       first_name.meta_value as first_name,
+				       last_name.meta_value as last_name
+				FROM $rdv_table_msg
+				    
+                INNER JOIN {$wpdb->users} ON {$wpdb->users}.ID = $rdv_table_msg.rdv_msg_user_id
+				    
+                INNER JOIN (SELECT user_id, meta_value FROM {$wpdb->usermeta}
+                            WHERE meta_key = '$firstname') as $firstname ON {$wpdb->users}.ID = $firstname.user_id
+                INNER JOIN (SELECT user_id, meta_value FROM {$wpdb->usermeta}
+                            WHERE meta_key = '$lastname') as $lastname ON {$wpdb->users}.ID = $lastname.user_id
+                WHERE rdv_msg_id = $id
 				";
 
 				return $wpdb->get_row( $rdv_sql );
@@ -133,16 +144,16 @@ if ( ! class_exists( 'RdvQueriesMessageClass' ) ):
 		 * Used for select all administrators.
 		 */
 		public static function rdv_select_admins() {
-			global $wpdb, $users_table;
+			global $wpdb;
 
-			$users_table         = $wpdb->prefix . 'users';
 			$capabilities        = $wpdb->prefix . 'capabilities';
+			$nickname            = 'nickname';
 			$administratorStatus = 'a:1:{s:13:\"administrator\";b:1;}';
 
 			$sql = "
-			SELECT *, nickname.meta_value as nickname, $capabilities.meta_value as $capabilities FROM $users_table
+			SELECT *, nickname.meta_value as nickname, $capabilities.meta_value as $capabilities FROM {$wpdb->users}
 			INNER JOIN (SELECT user_id, meta_value FROM {$wpdb->usermeta} 
-						WHERE meta_key = 'nickname') as nickname ON {$wpdb->users}.ID = nickname.user_id
+						WHERE meta_key = '$nickname') as nickname ON {$wpdb->users}.ID = nickname.user_id
 			INNER JOIN (SELECT user_id, meta_value FROM {$wpdb->usermeta} 
 						WHERE meta_key = '$capabilities') as $capabilities ON {$wpdb->users}.ID = $capabilities.user_id
 			WHERE $capabilities.meta_value = '$administratorStatus'

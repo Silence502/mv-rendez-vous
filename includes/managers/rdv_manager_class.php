@@ -54,9 +54,8 @@ if ( ! class_exists( 'RdvManagerClass' ) ):
 				echo '<div><strong>Message envoyé ! Voulez-vous retourner à l\'<a href="' . get_site_url() . '">accueil</a> ?</strong></div>';
 				$rdvDAO->rdv_insert_function( $firstname, $lastname, $email, $phone, $date, $schedule, $message );
 				if ( RdvSettingsManager::select()->$rdvReceiving ) {
-				    ini_set('display_errors', 1 );
-				    error_reporting( E_ALL );
                     RdvSubmitClass::email_to_send( $adminMail, $firstname, $lastname, $dateObject, $schedule, $message, $email );
+                    var_dump($email);
                 }
 			}
 		}
