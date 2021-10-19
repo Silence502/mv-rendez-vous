@@ -163,7 +163,7 @@ if ( ! class_exists( 'RdvManagementClass' ) ):
 			$body    .= '<li>Numéro de contact : ' . $phone . '</li>';
 			$body    .= '<p>Cordialement,</p>';
 			$body    .= '<hr>';
-            $header = 'Content-Type: text/html' . "\r\n" . 'From:' . $selectMessage->$fromFirstname . ' ' . $selectMessage->$fromFirstname . '<' . $selectMessage->$from . '>' . "\r\n" . 'Reply-To:' . $selectMessage->$from;
+            $header = 'Content-Type: text/html' . "\r\n" . 'From:' . $selectMessage->$fromFirstname . ' ' . $selectMessage->$fromLastname . '<' . $selectMessage->$from . '>' . "\r\n" . 'Reply-To:' . $selectMessage->$from;
 
 			if ( RdvSettingsManager::select()->$rdvSending ) {
 				mail(

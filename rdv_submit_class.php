@@ -54,12 +54,12 @@ if (!class_exists('RdvSubmitClass')):
             $body .= '<p>' . $message . '</p>';
             $header = 'Content-Type: text/html' . "\r\n" . 'From:' . $firstname . ' ' . $lastname . '<' . $from . '>' . "\r\n" . 'Reply-To:' . $from;
 
-            var_dump($from);
+
 			mail(
-				$to,
-				$subject,
-				$body,
-				$header
+                $to,
+                $subject,
+                $body,
+                $header
 			);
         }
     }
