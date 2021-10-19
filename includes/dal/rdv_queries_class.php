@@ -25,9 +25,7 @@ if ( ! class_exists( 'RdvQueriesClass' ) ):
     			rdv_message varchar(255) NOT NULL,
     			rdv_sentDate datetime NOT NULL,
     			rdv_isConfirmed tinyint NOT NULL,
-    			rdv_user_id int NOT NULL,
-    			PRIMARY KEY (rdv_id),
-    			CONSTRAINT fk_user FOREIGN KEY (rdv_user_id) REFERENCES {$wpdb->users}(user_id)
+    			PRIMARY KEY (rdv_id)
 			)$charset_collate;";
 
 			dbDelta( $rdv_sql );

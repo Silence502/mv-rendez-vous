@@ -18,8 +18,8 @@ if ( ! class_exists( 'RdvManagerClass' ) ):
 		 * @throws Exception
 		 */
 		public static function insert( $firstname, $lastname, $email, $phone, $date, $schedule, $message ) {
-		    $emailCol = 'rdv_msg_email';
-		    $adminMail = RdvMessageManager::select()->$emailCol;
+		    $adminMailCol = 'user_email';
+		    $adminMail = RdvMessageManager::select()->$adminMailCol;
             $dateObject = date_create( $date );
             $rdvReceiving = 'rdv_receiving';
 			$rdvDAO = RdvDAOFactory::getRdvQueriesClass();

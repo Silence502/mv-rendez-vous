@@ -5,8 +5,8 @@ if ( ! class_exists( 'RdvMessageManager' ) ):
 	class RdvMessageManager {
 
 		/**
-		 * @return array|object|void|null
-		 * Used for the 'select' query through the DAO factory.
+		 * @return array|object
+         * Used for the 'select' query through the DAO factory.
 		 * @throws Exception
 		 */
 		public static function select() {
@@ -15,19 +15,19 @@ if ( ! class_exists( 'RdvMessageManager' ) ):
 			return $rdvMessageDAO->rdv_select_message();
 		}
 
-		/**
-		 * @param $id
-		 * @param $email
-		 * @param $subject
-		 * @param $title
-		 * @param $body
-		 * Used for get 'update' query through the DAO factory.
-		 *
-		 * @throws Exception
-		 */
-		public static function update( $id, $email, $subject, $title, $body ) {
+        /**
+         * @param $id
+         * @param $userId
+         * @param $subject
+         * @param $title
+         * @param $body
+         * Used for get 'update' query through the DAO factory.
+         *
+         * @throws Exception
+         */
+		public static function update( $id, $userId, $subject, $title, $body ) {
 			$rdvMessageDAO = RdvDAOFactory::getRdvQueriesMessageClass();
-			$rdvMessageDAO->rdv_update_message_function( $id, $email, $subject, $title, $body );
+			$rdvMessageDAO->rdv_update_message_function( $id, $userId, $subject, $title, $body );
 		}
 
 		/**

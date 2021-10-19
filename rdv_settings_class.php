@@ -34,10 +34,14 @@ if ( ! class_exists( 'RdvSettingsClass' ) ):
 			$sending_param   = 1;
 			$receiving_param = 1;
 			$rdvMsgId        = 'rdv_msg_id';
-			$rdvMsgEmail     = 'rdv_msg_email';
+			$rdvMsgUserId    = 'rdv_msg_user_id';
+			$rdvMsgFirstname = 'first_name';
+            $rdvMsgLastname  = 'last_name';
+			$rdvMsgEmail     = 'user_email';
 			$rdvMsgSubject   = 'rdv_msg_subject';
 			$rdvMsgTitle     = 'rdv_msg_title';
 			$rdvMsgBody      = 'rdv_msg_body';
+			$userId          = 'ID';
 			$userNickname    = 'nickname';
 			$userEmail       = 'user_email';
 
@@ -131,10 +135,10 @@ if ( ! class_exists( 'RdvSettingsClass' ) ):
 			                <td>
 			                    <select id="admin-list" name="admin-list">';
 			foreach ( $selectAdmins as $row ) {
-				if ( $row->$userEmail === $selectMessage->$rdvMsgEmail ) {
-					echo '<option selected value = "' . $row->$userEmail . '" >' . $row->$userNickname . '</option >';
+				if ( $row->$userId == $selectMessage->$rdvMsgUserId ) {
+					echo '<option selected value = "' . $row->$userId . '" >' . $row->$userNickname . '</option >';
 				} else {
-					echo '<option value = "' . $row->$userEmail . '" >' . $row->$userNickname . '</option >';
+					echo '<option value = "' . $row->$userId . '" >' . $row->$userNickname . '</option >';
 				}
 			};
 			echo '					
@@ -154,7 +158,6 @@ if ( ! class_exists( 'RdvSettingsClass' ) ):
 				</div >
 			';
 
-
 			include_once 'includes/rdv_footer_form.php';
 
 			if ( isset( $_POST['submit'] ) ) {
@@ -168,10 +171,11 @@ if ( ! class_exists( 'RdvSettingsClass' ) ):
 					RdvSettingsManager::update( $selectSettings->$rdvSettingsId, false, false );
 				}
 
-				if ( isset( $_POST['subject'], $_POST['title'], $_POST['body'] ) ) {
-					RdvMessageManager::update( $selectMessage->$rdvMsgId, $_POST['admin-list'], $_POST['subject'], $_POST['title'], $_POST['body'] );
-				}
-				echo '<meta http-equiv = "REFRESH" content = "0">';
+                if ( isset( $_POST['subject'], $_POST['title'], $_POST['body'] ) ) {
+                    RdvMessageManager::update( $selectMessage->$rdvMsgId, $_POST['admin-list'], $_POST['subject'], $_POST['title'], $_POST['body'] );
+                }
+
+                echo '<meta http-equiv = "REFRESH" content = "0">';
 			}
 		}
 	}

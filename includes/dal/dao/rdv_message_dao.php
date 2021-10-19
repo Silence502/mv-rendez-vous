@@ -51,17 +51,17 @@ if ( ! interface_exists( 'RdvMessageDAO' ) ):
 		 * ********************************************
 		 */
 
-		/**
-		 * @param $id
-		 * @param $email
-		 * @param $subject
-		 * @param $title
-		 * @param $body
-		 *
-		 * @return mixed
-		 * Used for update message by id.
-		 */
-		public static function rdv_update_message_function( $id, $email, $subject, $title, $body );
+        /**
+         * @param $id
+         * @param $userId
+         * @param $subject
+         * @param $title
+         * @param $body
+         *
+         * @return mixed
+         * Used for update message by id.
+         */
+		public static function rdv_update_message_function( $id, $userId, $subject, $title, $body );
 
 		/*
 		 * ********************************************
