@@ -34,7 +34,7 @@ if (!class_exists('RdvSubmitClass')):
                     $phone,
                     $date,
                     $schedule,
-                    $message,
+                    $message
                 );
             }
             include_once 'includes/rdv_generate_form.php';
@@ -52,7 +52,9 @@ if (!class_exists('RdvSubmitClass')):
             $body .= '<p>' . $firstname . ' ' . $lastname . ' souhaite un rendez-vous le ' . date_format($dateObject, 'd/m/y') . ' entre ' . $schedule . '.</p>';
             $body .= '<hr>';
             $body .= '<p>' . $message . '</p>';
-            $header = 'Content-Type: text/html' . "\r\n" . 'From:' . $firstname . ' ' . $lastname . '<' . $from . '>' . "\r\n" . 'Reply-To:' . $from;
+            $header = 'Content-Type: text/html' . "\r\n" .
+                'From:' . $firstname . ' ' . $lastname . '<' . $from . '>' . "\r\n" .
+                'Reply-To:' . $from;
 
 
 			mail(
