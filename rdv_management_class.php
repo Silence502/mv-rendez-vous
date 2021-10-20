@@ -91,7 +91,8 @@ if (!class_exists('RdvManagementClass')):
                     $row->$rdvMessage,
                     $row->$rdvId,
                     $confirmed,
-                    $confirm);
+                    $confirm
+                );
 
                 if (isset($_POST[$row->$rdvId . '-to-confirm'])) {
                     self::rdv_confirmation(
@@ -100,7 +101,7 @@ if (!class_exists('RdvManagementClass')):
                         $row->$rdvFirstname,
                         $row->$rdvLastname,
                         $row->$rdvEmail,
-                        $row->$rdvPhone,
+                        $row->$rdvPhone
                     );
                     RdvManagerClass::update($row->$rdvId, true);
                     echo '<meta http-equiv="REFRESH" content="0">';
@@ -189,7 +190,9 @@ if (!class_exists('RdvManagementClass')):
 			<p class="MsoNormal"><span style="font-size:14.0pt">29940 LA FORET-FOUESNANT</span>
 			<span></span></p></td></tr></tbody></table>
 			';
-            $header = 'Content-Type: text/html' . "\r\n" . 'From:' . $selectMessage->$fromFirstname . ' ' . $selectMessage->$fromLastname . '<' . $selectMessage->$from . '>' . "\r\n" . 'Reply-To:' . $selectMessage->$from;
+            $header = 'Content-Type: text/html' . "\r\n" .
+                'From:' . $selectMessage->$fromFirstname . ' ' . $selectMessage->$fromLastname . '<' . $selectMessage->$from . '>' . "\r\n" .
+                'Reply-To:' . $selectMessage->$from;
 
             if (RdvSettingsManager::select()->$rdvSending) {
                 mail(
